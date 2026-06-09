@@ -701,6 +701,13 @@ footer{
   .foot-social{align-items:flex-start;}
 }
 </style>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ⚠️ Reemplaza con tu Public Key de EmailJS
+  emailjs.init('B5Al7xlpALdmZj_Fj');
+</script>
 </head>
 <body>
 
@@ -714,7 +721,7 @@ footer{
   <ul class="nav-links">
     <li><a href="#about">Nosotros</a></li>
     <li><a href="#services">Servicios</a></li>
-    <li><a href="#works">Portafolio</a></li>
+    <li><a href="#portafolio-anchor">Portafolio</a></li>
     <li><a href="#testimonials">Testimonios</a></li>
     <li><a href="#contact">Contacto</a></li>
     <li><a href="#" id="nav-redes">Redes sociales</a></li>
@@ -811,6 +818,9 @@ footer{
 </section>
 
 </div><!-- end .sticky-scene -->
+
+<!-- anchor for Portafolio nav link — must be outside sticky context -->
+<div id="portafolio-anchor" style="position:relative;top:0;"></div>
 
 <!-- STICKY WRAPPER: proyectos bg + second grid -->
 <div class="sticky-scene">
@@ -1298,19 +1308,52 @@ function toggleSvc(row) {
   goTo(0);
 })();
 
-/* ─── Contact form ─── */
+/* ─── Contact form con EmailJS ─── */
 function handleForm(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.form-btn');
-  const msg = document.getElementById('success-msg');
+  const successMsg = document.getElementById('success-msg');
+
+  // Recoger los datos del formulario
+  const templateParams = {
+    nombre:   document.getElementById('cf-nombre').value.trim(),
+    apellido: document.getElementById('cf-apellido').value.trim(),
+    email:    document.getElementById('cf-email').value.trim(),
+    asunto:   document.getElementById('cf-asunto').value.trim(),
+    mensaje:  document.getElementById('cf-mensaje').value.trim(),
+  };
+
+  // Estado de carga
   btn.disabled = true;
-  btn.style.opacity = '.6';
-  setTimeout(() => {
-    msg.classList.add('show');
-    btn.disabled = false;
-    btn.style.opacity = '';
-    e.target.reset();
-  }, 600);
+  btn.textContent = 'Enviando...';
+  btn.style.opacity = '.7';
+  successMsg.classList.remove('show', 'error');
+
+  // ⚠️ Reemplaza con tu Service ID y Template ID
+  emailjs.send('service_3a7cvsj', 'template_3k5xd5g', templateParams)
+    .then(() => {
+      // Éxito
+      successMsg.textContent = '✓ ¡Mensaje enviado! Te contactaremos pronto.';
+      successMsg.style.background = '#e8f8ef';
+      successMsg.style.borderColor = '#4CAF50';
+      successMsg.style.color = '#2a7a3e';
+      successMsg.classList.add('show');
+      e.target.reset();
+    })
+    .catch((error) => {
+      // Error
+      console.error('EmailJS error:', error);
+      successMsg.textContent = '✗ Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
+      successMsg.style.background = '#fff0f0';
+      successMsg.style.borderColor = '#e53935';
+      successMsg.style.color = '#b71c1c';
+      successMsg.classList.add('show');
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.textContent = 'Enviar Mensaje';
+      btn.style.opacity = '';
+    });
 }
 </script>
 <!-- FLOATING CTA CARD -->
