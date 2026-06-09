@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\HP\\\\OneDrive\\\\Escritorio\\\\CLAUDE\\\\attra-web\\\\src\\\\components\\\\ui\")",
+      "PowerShell(Get-Command git -ErrorAction SilentlyContinue)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Git\\\\bin\\\\git.exe\" --version 2>$null)",
+      "PowerShell(& \"C:\\\\Program Files \\(x86\\)\\\\Git\\\\bin\\\\git.exe\" --version 2>$null)",
+      "PowerShell(Get-Command gh -ErrorAction SilentlyContinue)",
+      "PowerShell(winget list Git 2>$null)",
+      "PowerShell(winget install --id Git.Git -e --source winget --accept-package-agreements --accept-source-agreements)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\Git\\\\bin;\" + $env:PATH; cd attra-web; git init; git config user.email \"maximiliano10vl@gmail.com\"; git config user.name \"mvertex\")",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\Git\\\\bin;\" + $env:PATH; git config user.email \"maximiliano10vl@gmail.com\"; git config user.name \"mvertex\"; git add .; git status --short | Select-Object -First 30)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\Git\\\\bin;\" + $env:PATH; git commit -m \"Initial commit\")",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\Git\\\\bin;\" + $env:PATH; git remote add origin https://github.com/mvertex/ATTRA-test-website.git; git branch -M main; git push -u origin main)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/nMO3e8boqETUo7mkUmvoIA\" --max-filesize 5242880)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/index.html)",
+      "Bash(curl -sL -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -sL http://localhost:3000/)",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\HP\\\\OneDrive\\\\Escritorio\\\\CLAUDE\\\\Informacion\\\\Urbanist_extracted\\\\Urbanist-VariableFont_wght.ttf\" -Destination \"C:\\\\Users\\\\HP\\\\OneDrive\\\\Escritorio\\\\CLAUDE\\\\uploads\\\\Urbanist-Variable.ttf\")",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\HP\\\\OneDrive\\\\Escritorio\\\\CLAUDE\\\\Informacion\\\\Urbanist_extracted\\\\Urbanist-Italic-VariableFont_wght.ttf\" -Destination \"C:\\\\Users\\\\HP\\\\OneDrive\\\\Escritorio\\\\CLAUDE\\\\uploads\\\\Urbanist-Italic-Variable.ttf\")"
+    ]
+  }
+}

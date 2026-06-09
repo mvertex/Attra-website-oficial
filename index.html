@@ -358,6 +358,17 @@ a{text-decoration:none;}
 }
 
 /* isotipo scatter — injected by JS */
+.card-round-img{
+  position:absolute;
+  width:85%;height:85%;
+  object-fit:cover;
+  border-radius:20px;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+  pointer-events:none;
+}
 .work-card-iso{
   position:absolute;
   pointer-events:none;
@@ -759,12 +770,15 @@ footer{
   <div class="works-grid">
     <div class="work-card glass-card">
       <div class="work-card-bg"></div>
+      <img src="uploads/nura-bars.png" alt="Nura Bars" class="card-round-img">
     </div>
     <div class="work-card glass-card">
       <div class="work-card-bg"></div>
+      <img src="uploads/origen-carpinteria.png" alt="Origen Carpintería" class="card-round-img">
     </div>
     <div class="work-card glass-card">
       <div class="work-card-bg"></div>
+      <img src="uploads/vertex-mockup-website.png" alt="Vertex Mockup" class="card-round-img">
     </div>
     <div class="work-card glass-card">
       <div class="work-card-bg"></div>

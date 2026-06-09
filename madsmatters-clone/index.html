@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MadsMatters — We Pull The Ropes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Variables ─────────────────────────────────────────────────────────── */
+    :root {
+      --white:  #ffffff;
+      --light:  #eff4f7;
+      --teal:   #00302e;
+      --lime:   #9ada00;
+      --dark:   #111112;
+      --dark80: rgba(17,17,18,.8);
+    }
+
+    /* ─── Reset ─────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── Nav ────────────────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5%;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      transition: background .3s, backdrop-filter .3s;
+    }
+    .nav.scrolled {
+      background: rgba(17,17,18,.92);
+      backdrop-filter: blur(18px);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.45rem; font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--white);
+    }
+    .nav-logo em { font-style: normal; color: var(--lime); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,.6);
+      font-size: .88rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--lime) !important;
+      color: var(--dark) !important;
+      padding: .55rem 1.4rem;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      transition: transform .2s, box-shadow .2s !important;
+    }
+    .nav-cta:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 24px rgba(154,218,0,.4);
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 9rem 5% 5rem;
+      background: var(--dark);
+      position: relative; overflow: hidden;
+    }
+    .hero-noise {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      background-size: 200px;
+      opacity: .5;
+    }
+    .hero-glow {
+      position: absolute; pointer-events: none;
+      border-radius: 50%; filter: blur(120px);
+    }
+    .hero-glow-1 {
+      width: 600px; height: 600px;
+      background: rgba(154,218,0,.07);
+      top: -100px; right: -100px;
+    }
+    .hero-glow-2 {
+      width: 500px; height: 500px;
+      background: rgba(0,48,46,.5);
+      bottom: -100px; left: -80px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .75rem; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--lime);
+      margin-bottom: 2rem; position: relative;
+    }
+    .hero-badge::before {
+      content: ''; display: block;
+      width: 28px; height: 2px; background: var(--lime);
+    }
+    .hero-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -.035em;
+      max-width: 950px; position: relative;
+      margin-bottom: 4rem;
+    }
+    .hero-headline em {
+      font-style: normal; color: var(--lime);
+    }
+    .hero-stats {
+      display: flex; gap: 4rem;
+      border-top: 1px solid rgba(255,255,255,.09);
+      padding-top: 2.5rem;
+      position: relative;
+    }
+    .stat { display: flex; flex-direction: column; gap: .3rem; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+      font-weight: 800; line-height: 1;
+      color: var(--lime);
+    }
+    .stat-lbl { font-size: .82rem; color: rgba(255,255,255,.45); }
+
+    /* ─── Section shared ─────────────────────────────────────────────────────── */
+    .tag {
+      display: inline-flex; align-items: center; gap: .7rem;
+      font-size: .74rem; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .tag::before { content: ''; display: block; width: 28px; height: 2px; background: currentColor; }
+
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -.035em;
+      margin-bottom: 3.5rem;
+    }
+    .hl {
+      background: var(--lime);
+      color: var(--dark);
+      padding: 0 .18em;
+      display: inline;
+    }
+    .lime { color: var(--lime); }
+
+    /* ─── Reveal animation ───────────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── Making Brands POP ──────────────────────────────────────────────────── */
+    .brands {
+      background: var(--white);
+      color: var(--dark);
+      padding: 7rem 5%;
+    }
+    .brands .tag { color: var(--teal); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+    .svc-card {
+      background: var(--light);
+      border-radius: 18px;
+      padding: 2.2rem;
+      position: relative; overflow: hidden;
+      cursor: default;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .svc-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--lime);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .35s cubic-bezier(.25,.46,.45,.94);
+    }
+    .svc-card:hover { transform: translateY(-5px); box-shadow: 0 24px 48px rgba(0,0,0,.09); }
+    .svc-card:hover::after { transform: scaleX(1); }
+    .svc-icon {
+      width: 50px; height: 50px; border-radius: 12px;
+      background: var(--lime);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.6rem;
+    }
+    .svc-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.12rem; font-weight: 700;
+      color: var(--dark); margin-bottom: .7rem;
+    }
+    .svc-desc {
+      font-size: .875rem; line-height: 1.7;
+      color: rgba(17,17,18,.58);
+    }
+
+    /* ─── Growth ─────────────────────────────────────────────────────────────── */
+    .growth {
+      background: var(--teal);
+      color: var(--white);
+      padding: 7rem 5%;
+    }
+    .growth .tag { color: var(--lime); }
+    .growth-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+      margin-top: 3.5rem;
+    }
+    .grow-card {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      padding: 2.2rem;
+      transition: background .3s, border-color .3s;
+    }
+    .grow-card:hover {
+      background: rgba(154,218,0,.08);
+      border-color: rgba(154,218,0,.28);
+    }
+    .grow-num {
+      font-family: 'Syne', sans-serif;
+      font-size: .78rem; font-weight: 700;
+      letter-spacing: .12em; color: var(--lime);
+      margin-bottom: 1rem;
+    }
+    .grow-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: .7rem;
+    }
+    .grow-desc {
+      font-size: .875rem; line-height: 1.7;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ─── Works ──────────────────────────────────────────────────────────────── */
+    .works {
+      background: var(--dark);
+      padding: 7rem 5%;
+      position: relative; overflow: hidden;
+    }
+    .works-watermark {
+      position: absolute;
+      font-family: 'Syne', sans-serif;
+      font-size: 22vw; font-weight: 800;
+      color: rgba(255,255,255,.026);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none; white-space: nowrap;
+      letter-spacing: -.05em; user-select: none;
+    }
+    .works-hdr {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 2.8rem; position: relative;
+    }
+    .works-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800; line-height: 1;
+      letter-spacing: -.05em;
+    }
+    .works-title span { color: var(--lime); }
+    .works-all {
+      display: inline-flex; align-items: center; gap: .5rem;
+      color: var(--lime); font-weight: 600; font-size: .88rem;
+      border: 1px solid var(--lime); padding: .65rem 1.4rem;
+      border-radius: 100px;
+      transition: background .2s, color .2s;
+    }
+    .works-all:hover { background: var(--lime); color: var(--dark); }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      position: relative;
+    }
+    .work-card {
+      border-radius: 14px; overflow: hidden;
+      aspect-ratio: 4/3; cursor: pointer;
+      position: relative;
+    }
+    .work-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .work-card:hover .work-inner { transform: scale(1.06); }
+    .work-mock-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: rgba(255,255,255,.13);
+      letter-spacing: -.03em;
+      user-select: none;
+    }
+    .work-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0; transition: opacity .3s;
+    }
+    .work-card:hover .work-overlay { opacity: 1; }
+    .work-tag {
+      font-size: .72rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--lime); margin-bottom: .35rem;
+    }
+    .work-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--white);
+    }
+    /* Card color themes */
+    .c1 { background: linear-gradient(135deg,#0d0d2b,#1a1a4e); }
+    .c2 { background: linear-gradient(135deg,#1a0d00,#5a2d00); }
+    .c3 { background: linear-gradient(135deg,#001a0f,#004d25); }
+    .c4 { background: linear-gradient(135deg,#110020,#36006a); }
+    .c5 { background: linear-gradient(135deg,#200008,#6a001a); }
+    .c6 { background: linear-gradient(135deg,#001222,#003a6a); }
+
+    /* ─── Testimonials ───────────────────────────────────────────────────────── */
+    .testimonials {
+      background: var(--light);
+      color: var(--dark);
+      padding: 7rem 5%;
+    }
+    .testimonials .tag { color: var(--teal); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+      margin-top: 3rem;
+    }
+    .testi-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 2.5rem;
+      position: relative;
+    }
+    .testi-quote {
+      font-family: 'Syne', sans-serif;
+      font-size: 4.5rem; font-weight: 800; line-height: .8;
+      color: var(--lime); position: absolute;
+      top: 1.4rem; left: 2rem; user-select: none;
+    }
+    .testi-text {
+      font-size: .95rem; line-height: 1.72;
+      color: rgba(17,17,18,.72);
+      padding-top: 2.8rem; margin-bottom: 2rem;
+    }
+    .testi-author { display: flex; align-items: center; gap: 1rem; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--lime);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: .9rem; color: var(--dark);
+      flex-shrink: 0;
+    }
+    .testi-name {
+      font-family: 'Syne', sans-serif;
+      font-size: .9rem; font-weight: 700; color: var(--dark);
+    }
+    .testi-role { font-size: .78rem; color: rgba(17,17,18,.48); }
+
+    /* ─── CTA Banner ─────────────────────────────────────────────────────────── */
+    .cta-band {
+      background: var(--dark);
+      padding: 9rem 5%;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-glow {
+      position: absolute; pointer-events: none;
+      width: 800px; height: 800px;
+      border-radius: 50%; filter: blur(140px);
+      background: rgba(154,218,0,.06);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .cta-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 6.5vw, 6rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -.045em;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: .75rem;
+      background: var(--lime); color: var(--dark);
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1rem; padding: 1.1rem 2.6rem;
+      border-radius: 100px; position: relative;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(154,218,0,.45);
+    }
+    .cta-btn-arrow { font-size: 1.2rem; }
+
+    /* ─── Footer ─────────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 2.8rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.7rem; font-weight: 800;
+      letter-spacing: -.03em; color: var(--white);
+    }
+    .footer-logo em { font-style: normal; color: var(--lime); }
+    .footer-nav { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+    .footer-nav a {
+      color: rgba(255,255,255,.42); font-size: .83rem;
+      transition: color .2s;
+    }
+    .footer-nav a:hover { color: var(--white); }
+    .footer-copy { font-size: .78rem; color: rgba(255,255,255,.25); }
+
+    /* ─── Responsive ─────────────────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .works-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 2rem; flex-wrap: wrap; }
+      .services-grid, .growth-grid,
+      .testi-grid, .works-grid { grid-template-columns: 1fr; }
+      .works-hdr { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Mads<em>Matters</em></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#works">Work</a></li>
+    <li><a href="#testimonials">About</a></li>
+    <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+
+  <p class="hero-badge">New Era Digital Agency</p>
+  <h1 class="hero-headline">
+    At Mads Matters, we've traded corporate legacy for <em>digital agility.</em>
+    Backed by years of high level strategy, we're a new era agency
+    and we're here to know the ropes — we pull them.
+  </h1>
+
+  <div class="hero-stats" id="stats">
+    <div class="stat">
+      <span class="stat-num" data-target="12" data-suffix="+">0</span>
+      <span class="stat-lbl">Years Experience</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" data-target="80" data-suffix="+">0</span>
+      <span class="stat-lbl">Clients Worldwide</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" data-target="250" data-suffix="+">0</span>
+      <span class="stat-lbl">Projects Delivered</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" data-target="98" data-suffix="%">0</span>
+      <span class="stat-lbl">Client Retention</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MAKING BRANDS POP ════════════════════════════════════════════════════ -->
+<section class="brands" id="services">
+  <div class="tag" style="color:var(--teal)">What We Do</div>
+  <h2 class="sec-title reveal">Making Brands <span class="hl">Really POP</span></h2>
+
+  <div class="services-grid">
+    <div class="svc-card reveal">
+      <div class="svc-icon">🎨</div>
+      <h3 class="svc-title">Brand Identity &amp; Visual Design</h3>
+      <p class="svc-desc">Crafting identities that are impossible to ignore. From logo to full brand system, we build the visual DNA that makes you memorable.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-icon">💡</div>
+      <h3 class="svc-title">Creative Strategy</h3>
+      <p class="svc-desc">Data-informed creativity that actually connects. We bridge strategic insight with brave creative execution — no filler, all signal.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-icon">📱</div>
+      <h3 class="svc-title">Digital Campaigns</h3>
+      <p class="svc-desc">Performance-driven campaigns across every channel. Social, search, display — we make every impression earn its keep.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-icon">✍️</div>
+      <h3 class="svc-title">Content Creation</h3>
+      <p class="svc-desc">Stories that stick. Scroll-stopping content engineered for engagement, conversion, and genuine brand love.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-icon">🌐</div>
+      <h3 class="svc-title">Web &amp; Product Design</h3>
+      <p class="svc-desc">Websites and digital products that look stunning and convert. UX that guides, design that wows, performance that delivers.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-icon">📊</div>
+      <h3 class="svc-title">Analytics &amp; Insights</h3>
+      <p class="svc-desc">Turn data into decisions. We surface the metrics that matter and translate them into actions that move the needle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GROWTH ════════════════════════════════════════════════════════════════ -->
+<section class="growth">
+  <div class="tag" style="color:var(--lime)">How We Operate</div>
+  <h2 class="sec-title reveal" style="color:var(--white)">
+    Growth,<br>Performance<br><span class="lime">&amp; Scale</span>
+  </h2>
+
+  <div class="growth-grid">
+    <div class="grow-card reveal">
+      <div class="grow-num">01</div>
+      <h3 class="grow-title">Digital Commerce Development</h3>
+      <p class="grow-desc">End-to-end ecommerce built for conversion. From architecture to checkout optimisation, we engineer stores that sell.</p>
+    </div>
+    <div class="grow-card reveal">
+      <div class="grow-num">02</div>
+      <h3 class="grow-title">Performance Marketing</h3>
+      <p class="grow-desc">Paid media that pays back. ROAS-obsessed campaigns across Meta, Google, TikTok, and wherever your audience lives.</p>
+    </div>
+    <div class="grow-card reveal">
+      <div class="grow-num">03</div>
+      <h3 class="grow-title">SEO &amp; Organic Growth</h3>
+      <p class="grow-desc">Sustainable traffic at scale. Technical SEO, content strategy, and link building that compounds month over month.</p>
+    </div>
+    <div class="grow-card reveal">
+      <div class="grow-num">04</div>
+      <h3 class="grow-title">CRM &amp; Retention</h3>
+      <p class="grow-desc">Turn one-time buyers into lifelong advocates. Email, SMS, and loyalty programmes that keep customers coming back.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORKS ══════════════════════════════════════════════════════════════════ -->
+<section class="works" id="works">
+  <div class="works-watermark">WORKS</div>
+
+  <div class="works-hdr">
+    <h2 class="works-title reveal">Our <span>Works</span></h2>
+    <a href="#" class="works-all">View All Projects →</a>
+  </div>
+
+  <div class="works-grid">
+    <div class="work-card">
+      <div class="work-inner c1">
+        <span class="work-mock-label">NOVA</span>
+        <div class="work-overlay">
+          <span class="work-tag">Brand Identity</span>
+          <span class="work-name">Nova Tech Rebrand</span>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-inner c2">
+        <span class="work-mock-label">ARVO</span>
+        <div class="work-overlay">
+          <span class="work-tag">Digital Campaign</span>
+          <span class="work-name">Arvo Coffee Launch</span>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-inner c3">
+        <span class="work-mock-label">VERDE</span>
+        <div class="work-overlay">
+          <span class="work-tag">E-Commerce</span>
+          <span class="work-name">Verde Skincare Store</span>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-inner c4">
+        <span class="work-mock-label">KIRO</span>
+        <div class="work-overlay">
+          <span class="work-tag">Creative Strategy</span>
+          <span class="work-name">Kiro Fashion Campaign</span>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-inner c5">
+        <span class="work-mock-label">APEX</span>
+        <div class="work-overlay">
+          <span class="work-tag">Performance Marketing</span>
+          <span class="work-name">Apex Finance Growth</span>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-inner c6">
+        <span class="work-mock-label">FLUX</span>
+        <div class="work-overlay">
+          <span class="work-tag">Web Design</span>
+          <span class="work-name">Flux SaaS Platform</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ══════════════════════════════════════════════════════════ -->
+<section class="testimonials" id="testimonials">
+  <div class="tag" style="color:var(--teal)">Client Stories</div>
+  <h2 class="sec-title reveal">What They <span class="hl">Say</span></h2>
+
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Working with Mads Matters transformed how we think about digital. They don't just execute — they elevate. Our brand has never felt more alive or more strategic.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">JL</div>
+        <div>
+          <div class="testi-name">Jordan Lee</div>
+          <div class="testi-role">CEO, Nova Technologies</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">The team at Mads Matters is genuinely different. They combine creative bravery with commercial rigour in a way I've never seen from an agency before. Real results, real fast.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SR</div>
+        <div>
+          <div class="testi-name">Sofia Reyes</div>
+          <div class="testi-role">Head of Marketing, Arvo Coffee</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Our ecommerce revenue doubled in six months. Mads Matters identified the issues, redesigned the experience, and executed flawlessly. They're true partners, not vendors.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">MK</div>
+        <div>
+          <div class="testi-name">Marcus Kim</div>
+          <div class="testi-role">Founder, Verde Skincare</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">From brand strategy to paid media, they handle it all with precision and passion. Our CAC dropped 40% and ROAS hit a new all-time high within the first quarter.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">AW</div>
+        <div>
+          <div class="testi-name">Alex Winters</div>
+          <div class="testi-role">CMO, Apex Finance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ════════════════════════════════════════════════════════════════════ -->
+<section class="cta-band" id="contact">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title reveal">Ready to Pull<br>the Ropes?</h2>
+  <a href="mailto:hello@madsmatters.com" class="cta-btn">
+    Start a Project <span class="cta-btn-arrow">→</span>
+  </a>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-logo">Mads<em>Matters</em></div>
+  <ul class="footer-nav">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#works">Work</a></li>
+    <li><a href="#testimonials">About</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 MadsMatters. All rights reserved.</span>
+</footer>
+
+<!-- ═══ SCRIPTS ════════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Nav scroll ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── Scroll-reveal ── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // stagger siblings
+        const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.in)')];
+        siblings.forEach((el, idx) => {
+          setTimeout(() => el.classList.add('in'), idx * 90);
+        });
+        entry.target.classList.add('in');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Counter animation ── */
+  function runCounter(el) {
+    const target = +el.dataset.target;
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const startTime = performance.now();
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const statsObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      document.querySelectorAll('.stat-num').forEach(runCounter);
+      statsObs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  statsObs.observe(document.getElementById('stats'));
+</script>
+
+</body>
+</html>
