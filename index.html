@@ -709,11 +709,11 @@ footer{
   display:flex;align-items:center;
 }
 .float-marquee-track{
-  display:flex;align-items:center;gap:60px;
+  display:flex;align-items:center;gap:0;
   width:max-content;
   animation:floatMarquee 12s linear infinite;
 }
-.float-marquee-track img{height:400px;width:auto;flex-shrink:0;}
+.float-marquee-track img{height:400px;width:auto;flex-shrink:0;margin-right:60px;}
 @keyframes floatMarquee{
   from{transform:translateX(0);}
   to{transform:translateX(-50%);}
@@ -1057,8 +1057,8 @@ footer{
   .float-card-text{flex:none;}
   /* 2 logos en scroll infinito en móvil */
   .float-marquee-wrap{overflow:hidden;}
-  .float-marquee-track{gap:24px;animation-duration:6s;}
-  .float-marquee-track img{width:150px;height:auto;flex-shrink:0;}
+  .float-marquee-track{gap:0;animation-duration:7s;}
+  .float-marquee-track img{width:150px;height:auto;flex-shrink:0;margin-right:30px;}
   .float-social-btn{width:48px;height:48px;}
   .float-social-row{gap:14px;}
   .float-card-close{top:14px;right:16px;}
