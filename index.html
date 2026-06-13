@@ -709,15 +709,10 @@ footer{
   display:flex;align-items:center;
 }
 .float-marquee-track{
-  display:flex;align-items:center;gap:0;
-  width:max-content;
-  animation:floatMarquee 12s linear infinite;
+  display:flex;align-items:center;
+  will-change:transform;
 }
 .float-marquee-track img{height:400px;width:auto;flex-shrink:0;margin-right:60px;}
-@keyframes floatMarquee{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
 
 /* ── ANIMATIONS ── */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s var(--ease),transform .75s var(--ease);}
@@ -1055,10 +1050,8 @@ footer{
   #float-card.visible{transform:translateY(0);}
   .float-card-inner{padding:28px 20px 44px;gap:20px;height:auto;overflow-y:auto;}
   .float-card-text{flex:none;}
-  /* 2 logos en scroll infinito en móvil */
   .float-marquee-wrap{overflow:hidden;}
-  .float-marquee-track{gap:0;animation-duration:7s;}
-  .float-marquee-track img{width:150px;height:auto;flex-shrink:0;margin-right:30px;}
+  .float-marquee-track img{width:150px;height:auto;margin-right:30px;}
   .float-social-btn{width:48px;height:48px;}
   .float-social-row{gap:14px;}
   .float-card-close{top:14px;right:16px;}
@@ -1966,6 +1959,45 @@ function handleForm(e) {
     dismissed = false;
     card.classList.add('visible');
   });
+})();
+
+/* ─── Float marquee infinite scroll ─── */
+(function(){
+  const track = document.querySelector('.float-marquee-track');
+  if(!track) return;
+  const isMobile = () => window.innerWidth <= 900;
+  let x = 0;
+  let speed = isMobile() ? 1.2 : 2.5;
+  let raf;
+
+  function tick(){
+    x -= speed;
+    const imgs = track.querySelectorAll('img');
+    // Cuando el primer img sale completamente por la izquierda, lo movemos al final
+    const first = imgs[0];
+    const firstRight = first.getBoundingClientRect().right;
+    if(firstRight < track.getBoundingClientRect().left){
+      track.appendChild(first);
+      x += first.offsetWidth + parseInt(getComputedStyle(first).marginRight);
+    }
+    track.style.transform = `translateX(${x}px)`;
+    raf = requestAnimationFrame(tick);
+  }
+
+  // Pausar si el card no es visible (ahorra batería)
+  const card = document.getElementById('float-card');
+  const observer = new MutationObserver(() => {
+    if(card.classList.contains('visible')){
+      if(!raf) raf = requestAnimationFrame(tick);
+    } else {
+      cancelAnimationFrame(raf);
+      raf = null;
+    }
+  });
+  observer.observe(card, {attributes:true, attributeFilter:['class']});
+
+  // Actualizar velocidad si cambia tamaño
+  window.addEventListener('resize', () => { speed = isMobile() ? 1.2 : 2.5; });
 })();
 
 /* ─── Hamburger menu ─── */
