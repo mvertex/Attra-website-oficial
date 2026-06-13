@@ -1043,14 +1043,22 @@ footer{
   .form-row{grid-template-columns:1fr;gap:14px;}
   .contact-info{padding-right:0;}
 
-  /* FLOAT CARD */
-  #float-card{inset:12px;}
-  .float-marquee-track img{height:200px;}
-  .float-card-inner{padding:24px 16px;gap:20px;}
-  .float-social-btn{width:44px;height:44px;}
-  .float-social-row{gap:12px;}
-  .float-social-row{gap:10px;}
-  .float-social-btn{width:44px;height:44px;}
+  /* FLOAT CARD — bottom sheet on mobile */
+  #float-card{
+    inset:auto;
+    bottom:0;left:0;right:0;
+    border-radius:24px 24px 0 0;
+    max-height:90dvh;
+    transform:translateY(110%);
+    opacity:1;
+  }
+  #float-card.visible{transform:translateY(0);}
+  .float-card-inner{padding:28px 20px 44px;gap:20px;height:auto;overflow-y:auto;}
+  .float-card-text{flex:none;}
+  .float-marquee-track img{height:160px;}
+  .float-social-btn{width:48px;height:48px;}
+  .float-social-row{gap:14px;}
+  .float-card-close{top:14px;right:16px;}
 
   /* COOKIE BANNER */
   #cookie-banner{flex-direction:column;padding:20px;bottom:12px;width:calc(100% - 24px);gap:16px;}
@@ -1920,22 +1928,21 @@ function handleForm(e) {
   const closeBtn = document.getElementById('float-close');
   let dismissed = false;
 
-  let scrollTimer;
-  function checkScroll(){
-    if(dismissed) return;
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => {
-      const scrolled = window.scrollY + window.innerHeight;
-      const total = document.body.scrollHeight;
-      if(scrolled >= total - 120){
-        card.classList.add('visible');
-      } else {
-        card.classList.remove('visible');
-      }
-    }, 80);
-  }
+  // Sentinel al fondo de la página para detectar llegada al final
+  const sentinel = document.createElement('div');
+  sentinel.id = 'scroll-sentinel';
+  sentinel.style.cssText = 'height:1px;width:100%;pointer-events:none;';
+  document.body.appendChild(sentinel);
 
-  window.addEventListener('scroll', checkScroll, {passive:true});
+  const observer = new IntersectionObserver((entries) => {
+    if(dismissed) return;
+    if(entries[0].isIntersecting){
+      card.classList.add('visible');
+    } else {
+      card.classList.remove('visible');
+    }
+  }, { threshold: 0 });
+  observer.observe(sentinel);
 
   closeBtn.addEventListener('click', () => {
     dismissed = true;
