@@ -1045,7 +1045,8 @@ footer{
 
   /* FLOAT CARD */
   #float-card{inset:12px;}
-  .float-marquee-track img{height:220px;}
+  .float-marquee-track img{height:120px;}
+  .float-marquee-track{animation-duration:8s;}
   .float-social-row{gap:10px;}
   .float-social-btn{width:44px;height:44px;}
 
@@ -1917,15 +1918,19 @@ function handleForm(e) {
   const closeBtn = document.getElementById('float-close');
   let dismissed = false;
 
+  let scrollTimer;
   function checkScroll(){
     if(dismissed) return;
-    const scrolled = window.scrollY + window.innerHeight;
-    const total = document.body.scrollHeight;
-    if(scrolled >= total - 80){
-      card.classList.add('visible');
-    } else {
-      card.classList.remove('visible');
-    }
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.body.scrollHeight;
+      if(scrolled >= total - 120){
+        card.classList.add('visible');
+      } else {
+        card.classList.remove('visible');
+      }
+    }, 80);
   }
 
   window.addEventListener('scroll', checkScroll, {passive:true});
