@@ -538,7 +538,28 @@ a{text-decoration:none;}
 }
 .contact-left{grid-column:1;grid-row:1;}
 .contact-form-card{grid-column:2;grid-row:1/3;}
-.contact-details{grid-column:1;grid-row:2;}
+.contact-details{
+  grid-column:1;grid-row:2;
+  background:linear-gradient(135deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.03) 100%);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;
+  padding:32px 28px;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    0 1px 0 rgba(255,255,255,0.05);
+  transform:perspective(800px) rotateX(2deg) rotateY(-1deg);
+  transition:transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s;
+}
+.contact-details:hover{
+  transform:perspective(800px) rotateX(0deg) rotateY(0deg) translateY(-4px);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    0 1px 0 rgba(255,255,255,0.05);
+}
 .contact-left{
   max-width:340px;display:flex;flex-direction:column;justify-content:space-between;gap:48px;
   flex-shrink:0;
