@@ -530,9 +530,15 @@ a{text-decoration:none;}
 /* ── CONTACT ── */
 #contact{background:#24282b;color:#fff;padding:108px 80px;}
 .contact-inner{
-  display:flex;flex-direction:row;justify-content:space-between;
-  gap:80px;max-width:1200px;margin:0 auto;align-items:flex-start;
+  display:grid;
+  grid-template-columns:340px 1fr;
+  grid-template-rows:auto auto;
+  gap:48px 80px;
+  max-width:1200px;margin:0 auto;align-items:start;
 }
+.contact-left{grid-column:1;grid-row:1;}
+.contact-form-card{grid-column:2;grid-row:1/3;}
+.contact-details{grid-column:1;grid-row:2;}
 .contact-left{
   max-width:340px;display:flex;flex-direction:column;justify-content:space-between;gap:48px;
   flex-shrink:0;
@@ -1007,10 +1013,11 @@ footer{
 
   /* CONTACT */
   #contact{padding:48px 16px;}
-  .contact-inner{flex-direction:column;gap:36px;max-width:100%;}
-  .contact-left{max-width:100%;}
+  .contact-inner{grid-template-columns:1fr;grid-template-rows:auto;gap:28px;}
+  .contact-left{grid-column:1;grid-row:1;}
+  .contact-form-card{grid-column:1;grid-row:2;padding:24px 20px;width:100%;box-sizing:border-box;}
+  .contact-details{grid-column:1;grid-row:3;}
   .contact-left h1{font-size:36px;}
-  .contact-form-card{padding:24px 20px;max-width:100%;width:100%;box-sizing:border-box;}
   .form-row{grid-template-columns:1fr;gap:14px;}
   .contact-info{padding-right:0;}
 
@@ -1266,19 +1273,11 @@ footer{
 <section id="contact">
   <div class="contact-inner">
 
-    <!-- Left: title + details -->
+    <!-- Left: title -->
     <div class="contact-left reveal">
       <div>
         <h1>Hagámoslo<br><em>Realidad</em></h1>
         <p class="contact-sub">Completa el formulario y cuéntanos cómo podemos ayudarte. Hablemos de cómo llevar tu marca al siguiente nivel.<br><br>¿Listo para atraer más clientes?</p>
-      </div>
-      <div class="contact-details">
-        <h3>Datos de Contacto</h3>
-        <ul>
-          <li><span>Teléfono: </span>+52 9981702153</li>
-          <li><span>Email: </span><a href="mailto:hola@attra.com">hola@attra.com</a></li>
-          <li><span>Web: </span><a href="https://attramarketing.com" target="_blank">attramarketing.com</a></li>
-        </ul>
       </div>
     </div>
 
@@ -1318,6 +1317,16 @@ footer{
         <button type="submit" class="form-btn">Enviar Mensaje</button>
         <div class="success-msg" id="success-msg">✓ ¡Mensaje enviado! Te contactaremos pronto.</div>
       </form>
+    </div>
+
+    <!-- Details: below form on mobile -->
+    <div class="contact-details">
+      <h3>Datos de Contacto</h3>
+      <ul>
+        <li><span>Teléfono: </span>+52 9981702153</li>
+        <li><span>Email: </span><a href="mailto:hola@attra.com">hola@attra.com</a></li>
+        <li><span>Web: </span><a href="https://attramarketing.com" target="_blank">attramarketing.com</a></li>
+      </ul>
     </div>
 
   </div>
