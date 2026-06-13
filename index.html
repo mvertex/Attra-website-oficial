@@ -1055,7 +1055,16 @@ footer{
   #float-card.visible{transform:translateY(0);}
   .float-card-inner{padding:28px 20px 44px;gap:20px;height:auto;overflow-y:auto;}
   .float-card-text{flex:none;}
-  .float-marquee-track img{height:160px;}
+  /* Logo estático centrado en móvil, sin marquee */
+  .float-marquee-wrap{overflow:visible;}
+  .float-marquee-track{
+    animation:none;
+    width:100%;
+    justify-content:center;
+    gap:0;
+  }
+  .float-marquee-track img{height:80px;width:auto;}
+  .float-marquee-track img:not(:first-child){display:none;}
   .float-social-btn{width:48px;height:48px;}
   .float-social-row{gap:14px;}
   .float-card-close{top:14px;right:16px;}
