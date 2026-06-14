@@ -302,61 +302,16 @@ a{text-decoration:none;}
     0 24px 56px rgba(0,0,0,.18);
 }
 
-/* Works grid entrance animation */
-.works-grid .work-card{
-  transition:
-    transform .75s cubic-bezier(.25,1,.4,1),
-    opacity .6s ease,
-    box-shadow .5s cubic-bezier(.23,1,.32,1);
-}
-/* Disable transition while snapping to initial off-screen position */
-.works-grid.wc-init .work-card{
-  transition:none !important;
-}
-.works-grid.wc-init .work-card:nth-child(1){
-  transform:translateX(-120vw);
-  opacity:0;
-}
-.works-grid.wc-init .work-card:nth-child(2){
-  transform:translateX(120vw);
-  opacity:0;
-}
-.works-grid.wc-init .work-card:nth-child(3),
-.works-grid.wc-init .work-card:nth-child(4){
-  opacity:0;
-  transform:translateY(60px);
-}
-.works-grid.wc-p1 .work-card:nth-child(1){
-  transform:translateY(-6px);
-  opacity:1;
-}
-.works-grid.wc-p1 .work-card:nth-child(2){
-  transform:translateY(4px);
-  opacity:1;
-}
-.works-grid.wc-p1 .work-card:nth-child(3),
-.works-grid.wc-p1 .work-card:nth-child(4){
-  opacity:0;
-  transform:translateY(60px);
-}
-.works-grid.wc-p2 .work-card:nth-child(3){
-  opacity:1;
-  transform:translateY(8px);
-  transition-delay:0ms;
-}
-.works-grid.wc-p2 .work-card:nth-child(4){
-  opacity:1;
-  transform:translateY(-2px);
-  transition-delay:130ms;
+/* Works scroll-pinned scene */
+#works-scene{ height:300vh; }
+#works{
+  position:sticky;top:0;
+  min-height:100vh;
+  overflow:hidden;
 }
 @media(max-width:900px){
-  .works-grid.wc-init .work-card,
-  .works-grid.wc-p1 .work-card,
-  .works-grid.wc-p2 .work-card{
-    opacity:1 !important;
-    transform:none !important;
-    transition-delay:0ms !important;
-  }
+  #works-scene{ height:auto; }
+  #works{ position:relative; overflow:visible; }
 }
 .glass-tag{
   transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
@@ -1227,7 +1182,11 @@ footer{
 
 </section>
 
-<!-- WORKS -->
+</div><!-- end services sticky-scene -->
+
+<!-- WORKS SCENE — scroll-pinned for entrance animation -->
+<div class="sticky-scene" id="works-scene">
+
 <section id="works">
 
   <div class="works-grid">
@@ -1261,7 +1220,7 @@ footer{
   </div>
 </section>
 
-</div><!-- end .sticky-scene -->
+</div><!-- end works-scene -->
 
 <!-- anchor for Portafolio nav link — must be outside sticky context -->
 <div id="portafolio-anchor" style="position:relative;top:0;"></div>
@@ -2164,44 +2123,55 @@ function loadAnalytics() {
   gtag('config', 'G-XXXXXXXXXX'); // reemplaza con tu ID de GA4
 }
 
-// Works grid entrance animation — replays every time user scrolls back up then down
+// Works grid — scroll-pinned entrance animation
 (function(){
-  const grid = document.querySelector('#works .works-grid');
-  const section = document.getElementById('works');
-  if(!grid || !section) return;
+  const scene = document.getElementById('works-scene');
+  const grid  = document.querySelector('#works .works-grid');
+  if(!scene || !grid) return;
   if(window.innerWidth <= 900) return;
 
-  // 'idle' = reset/waiting, 'done' = animation played
-  let state = 'idle';
+  const cards = Array.from(grid.querySelectorAll('.work-card'));
+  if(cards.length < 4) return;
 
-  function check() {
-    const rect = section.getBoundingClientRect();
-    const viewH = window.innerHeight;
+  // Kill CSS transitions — we drive positions directly from scroll
+  cards.forEach(c => { c.style.transition = 'none'; c.style.willChange = 'transform, opacity'; });
 
-    // Section is fully below viewport → reset so animation can replay
-    if(rect.top > viewH * 0.9 && state === 'done') {
-      state = 'idle';
-      grid.classList.remove('wc-p1', 'wc-p2', 'wc-init');
+  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+
+  function update(){
+    const top      = scene.getBoundingClientRect().top;
+    const scrolled = -top;                               // px scrolled into scene
+    const room     = scene.offsetHeight - window.innerHeight; // total scrollable range
+    const p        = Math.max(0, Math.min(1, scrolled / room));
+
+    if(p <= 0){
+      // Before scene: all cards hidden off-screen
+      cards[0].style.cssText += ';transform:translateX(-110vw) translateY(-6px);opacity:0';
+      cards[1].style.cssText += ';transform:translateX( 110vw) translateY( 4px);opacity:0';
+      cards[2].style.cssText += ';transform:translateY(80px);opacity:0';
+      cards[3].style.cssText += ';transform:translateY(80px);opacity:0';
+      return;
     }
 
-    // Section entering from below → play animation
-    if(rect.top < viewH * 0.85 && state === 'idle') {
-      state = 'done';
-      // Snap cards off-screen with no transition
-      grid.classList.remove('wc-p1', 'wc-p2');
-      grid.classList.add('wc-init');
-      // Two frames ensures browser paints the off-screen state first
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          grid.classList.remove('wc-init');
-          grid.classList.add('wc-p1');
-          setTimeout(() => grid.classList.add('wc-p2'), 700);
-        });
-      });
-    }
+    const vw = window.innerWidth;
+
+    // Phase 1 (0 → 0.55): cards 1 & 2 slide in from sides
+    const e1 = easeOut(Math.min(1, p / 0.55));
+    cards[0].style.transform = `translateX(${(1-e1)*-vw*1.1}px) translateY(-6px)`;
+    cards[0].style.opacity   = e1;
+    cards[1].style.transform = `translateX(${(1-e1)* vw*1.1}px) translateY( 4px)`;
+    cards[1].style.opacity   = e1;
+
+    // Phase 2 (0.5 → 0.9): cards 3 & 4 rise up
+    const e2 = easeOut(Math.min(1, Math.max(0, (p - 0.5) / 0.4)));
+    cards[2].style.transform = `translateY(${(1-e2)*80}px)`;
+    cards[2].style.opacity   = e2;
+    cards[3].style.transform = `translateY(${(1-e2)*80}px)`;
+    cards[3].style.opacity   = e2;
   }
 
-  window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('scroll', update, { passive: true });
+  update(); // run once on load
 })();
 
 // Mostrar banner si no hay preferencia guardada (o expiró)
