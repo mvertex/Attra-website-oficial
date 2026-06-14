@@ -2157,15 +2157,15 @@ function loadAnalytics() {
     const room = Math.max(1, scene.offsetHeight - window.innerHeight);
     const p    = Math.max(0, Math.min(1, -top / room));
 
-    // Cards 1 & 2: linear slide from sides (p 0 → 0.6)
-    const t1 = Math.min(1, p / 0.6);
+    // Cards 1 & 2: linear slide from sides (p 0 → 0.3)
+    const t1 = Math.min(1, p / 0.3);
     cards[0].style.transform = `translateX(${(1 - t1) * -vw * 1.05}px)`;
     cards[0].style.opacity   = String(t1);
     cards[1].style.transform = `translateX(${(1 - t1) *  vw * 1.05}px)`;
     cards[1].style.opacity   = String(t1);
 
-    // Cards 3 & 4: linear rise (p 0.55 → 1)
-    const t2 = Math.min(1, Math.max(0, (p - 0.55) / 0.45));
+    // Cards 3 & 4: linear rise (p 0.25 → 0.5)
+    const t2 = Math.min(1, Math.max(0, (p - 0.25) / 0.25));
     cards[2].style.transform = `translateY(${(1 - t2) * 60}px)`;
     cards[2].style.opacity   = String(t2);
     cards[3].style.transform = `translateY(${(1 - t2) * 60}px)`;
