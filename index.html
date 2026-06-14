@@ -2171,6 +2171,9 @@ function loadAnalytics() {
     cards[3].style.transform = `translateY(${(1 - t2) * 60}px)`;
     cards[3].style.opacity   = String(t2);
 
+    // Disable hover while animating so CSS !important doesn't override JS transforms
+    grid.style.pointerEvents = (t1 >= 1 && t2 >= 1) ? 'auto' : 'none';
+
     raf = false;
   }
 
