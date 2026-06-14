@@ -309,6 +309,10 @@ a{text-decoration:none;}
     opacity .6s ease,
     box-shadow .5s cubic-bezier(.23,1,.32,1);
 }
+/* Disable transition while snapping to initial off-screen position */
+.works-grid.wc-init .work-card{
+  transition:none !important;
+}
 .works-grid.wc-init .work-card:nth-child(1){
   transform:translateX(-120vw);
   opacity:0;
@@ -2163,23 +2167,34 @@ function loadAnalytics() {
 // Works grid entrance animation
 (function(){
   const grid = document.querySelector('#works .works-grid');
-  if(!grid) return;
-  if(window.innerWidth <= 900) return; // mobile: no animation
-  grid.classList.add('wc-init');
-  let fired = false;
-  const io = new IntersectionObserver((entries) => {
-    if(fired || !entries[0].isIntersecting) return;
-    fired = true;
-    io.disconnect();
-    // Phase 1: cards 1 & 2 slide in
-    grid.classList.remove('wc-init');
-    grid.classList.add('wc-p1');
-    // Phase 2: cards 3 & 4 appear after 1 & 2 settle
-    setTimeout(() => {
-      grid.classList.add('wc-p2');
-    }, 680);
-  }, { threshold: 0.2 });
-  io.observe(document.getElementById('works'));
+  const section = document.getElementById('works');
+  if(!grid || !section) return;
+  if(window.innerWidth <= 900) return;
+
+  let animated = false;
+
+  function tryAnimate() {
+    if(animated) return;
+    const rect = section.getBoundingClientRect();
+    if(rect.top < window.innerHeight * 0.85) {
+      animated = true;
+      window.removeEventListener('scroll', tryAnimate);
+      // 1. Snap cards to off-screen instantly (no transition yet)
+      grid.classList.add('wc-init');
+      // 2. Wait 2 frames so browser paints the off-screen state
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // 3. Now start the transition
+          grid.classList.remove('wc-init');
+          grid.classList.add('wc-p1');
+          // 4. Cards 3 & 4 appear after 1 & 2 have settled
+          setTimeout(() => grid.classList.add('wc-p2'), 700);
+        });
+      });
+    }
+  }
+
+  window.addEventListener('scroll', tryAnimate, { passive: true });
 })();
 
 // Mostrar banner si no hay preferencia guardada (o expiró)
