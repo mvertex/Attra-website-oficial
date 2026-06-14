@@ -2131,7 +2131,7 @@ function loadAnalytics() {
   gtag('config', 'G-XXXXXXXXXX'); // reemplaza con tu ID de GA4
 }
 
-// Works grid — scroll-linked animation inside single sticky stage
+// Works grid — purely linear scroll-linked animation (no easing = no disconnect from scroll)
 (function(){
   const scene = document.getElementById('works-scene');
   const grid  = document.querySelector('#works .works-grid');
@@ -2141,35 +2141,40 @@ function loadAnalytics() {
   const cards = Array.from(grid.querySelectorAll('.work-card'));
   if(cards.length < 4) return;
 
-  cards.forEach(c => { c.style.transition = 'none'; c.style.willChange = 'transform,opacity'; });
+  // Force GPU compositing on each card from the start
+  cards.forEach(c => {
+    c.style.transition  = 'none';
+    c.style.willChange  = 'transform, opacity';
+    c.style.transform   = 'translateZ(0)';
+  });
 
-  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+  let vw   = window.innerWidth;
+  window.addEventListener('resize', () => { vw = window.innerWidth; }, { passive:true });
 
   let raf = false;
   function update(){
     const top  = scene.getBoundingClientRect().top;
-    const room = scene.offsetHeight - window.innerHeight; // 200vh - 100vh = 100vh
+    const room = Math.max(1, scene.offsetHeight - window.innerHeight);
     const p    = Math.max(0, Math.min(1, -top / room));
-    const vw   = window.innerWidth;
 
-    // Phase 1 (p 0→0.55): cards 1 & 2 in from sides
-    const e1 = easeOut(Math.min(1, p / 0.55));
-    cards[0].style.transform = `translateX(${(1-e1)*-vw*1.1}px)`;
-    cards[0].style.opacity   = String(e1);
-    cards[1].style.transform = `translateX(${(1-e1)* vw*1.1}px)`;
-    cards[1].style.opacity   = String(e1);
+    // Cards 1 & 2: linear slide from sides (p 0 → 0.6)
+    const t1 = Math.min(1, p / 0.6);
+    cards[0].style.transform = `translateX(${(1 - t1) * -vw * 1.05}px)`;
+    cards[0].style.opacity   = String(t1);
+    cards[1].style.transform = `translateX(${(1 - t1) *  vw * 1.05}px)`;
+    cards[1].style.opacity   = String(t1);
 
-    // Phase 2 (p 0.5→0.9): cards 3 & 4 rise
-    const e2 = easeOut(Math.min(1, Math.max(0, (p-0.5)/0.4)));
-    cards[2].style.transform = `translateY(${(1-e2)*80}px)`;
-    cards[2].style.opacity   = String(e2);
-    cards[3].style.transform = `translateY(${(1-e2)*80}px)`;
-    cards[3].style.opacity   = String(e2);
+    // Cards 3 & 4: linear rise (p 0.55 → 1)
+    const t2 = Math.min(1, Math.max(0, (p - 0.55) / 0.45));
+    cards[2].style.transform = `translateY(${(1 - t2) * 60}px)`;
+    cards[2].style.opacity   = String(t2);
+    cards[3].style.transform = `translateY(${(1 - t2) * 60}px)`;
+    cards[3].style.opacity   = String(t2);
 
     raf = false;
   }
 
-  function onScroll(){ if(!raf){ raf=true; requestAnimationFrame(update); } }
+  function onScroll(){ if(!raf){ raf = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, { passive:true });
   update();
 })();
