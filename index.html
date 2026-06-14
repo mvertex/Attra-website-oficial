@@ -305,15 +305,18 @@ a{text-decoration:none;}
 /* Works scroll-pinned scene */
 #works-scene{ height:300vh; }
 #works{
-  background:var(--dark2);  /* mismo azul que services */
+  background:transparent;
   position:sticky;top:0;
-  min-height:100vh;
+  height:100vh;
   overflow:hidden;
   z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 @media(max-width:900px){
   #works-scene{ height:auto; }
-  #works{ position:relative; overflow:visible; background:transparent; }
+  #works{ position:relative; height:auto; overflow:visible; }
 }
 .glass-tag{
   transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
@@ -1170,8 +1173,9 @@ footer{
   </div>
 </section>
 
-<!-- SERVICES — own sticky-scene -->
-<div class="sticky-scene">
+<!-- WORKS SCENE — services stays fixed behind, cards animate in over it -->
+<div class="sticky-scene" id="works-scene">
+
 <section id="services">
   <div class="services-head">
     <h2>
@@ -1180,10 +1184,7 @@ footer{
     </h2>
   </div>
 </section>
-</div>
 
-<!-- WORKS — solo en su propio sticky-scene, mismo fondo azul que services -->
-<div class="sticky-scene" id="works-scene">
 <section id="works">
 
   <div class="works-grid">
@@ -2120,17 +2121,17 @@ function loadAnalytics() {
   gtag('config', 'G-XXXXXXXXXX'); // reemplaza con tu ID de GA4
 }
 
-// Works grid — scroll-pinned entrance animation
+// Works grid — cards animate over the fixed services background
 (function(){
   const scene = document.getElementById('works-scene');
-  const grid  = document.querySelector('#works .works-grid');
+  const works = document.getElementById('works');
+  const grid  = works && works.querySelector('.works-grid');
   if(!scene || !grid) return;
   if(window.innerWidth <= 900) return;
 
   const cards = Array.from(grid.querySelectorAll('.work-card'));
   if(cards.length < 4) return;
 
-  // Disable CSS transitions — positions driven 1:1 by scroll
   cards.forEach(c => {
     c.style.transition = 'none';
     c.style.willChange = 'transform, opacity';
@@ -2138,31 +2139,44 @@ function loadAnalytics() {
 
   function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
 
+  // Cache the sceneBottom at the moment works first becomes sticky
+  let stickRef = null;
+
   let raf = false;
   function update(){
-    const sceneTop = scene.getBoundingClientRect().top;
-    const viewH    = window.innerHeight;
-    // Scene has 300vh. Works is min-height 100vh and the only sticky child.
-    // Works sticks from scroll=0 to scroll=(300vh-100vh)=200vh within scene.
-    // room = scene.offsetHeight - viewH = reliable when scene has explicit height.
-    const room = scene.offsetHeight - viewH;
-    if(room <= 0){ raf = false; return; }
+    const worksTop     = works.getBoundingClientRect().top;
+    const sceneBottom  = scene.getBoundingClientRect().bottom;
+    const viewH        = window.innerHeight;
+    const vw           = window.innerWidth;
 
-    const p = Math.max(0, Math.min(1, -sceneTop / room));
-    const vw = window.innerWidth;
+    if(worksTop > 1){
+      // Works not yet sticky — reset everything
+      stickRef = null;
+      cards[0].style.transform = `translateX(${-vw*1.1}px)`; cards[0].style.opacity = '0';
+      cards[1].style.transform = `translateX(${ vw*1.1}px)`; cards[1].style.opacity = '0';
+      cards[2].style.transform = 'translateY(80px)';           cards[2].style.opacity = '0';
+      cards[3].style.transform = 'translateY(80px)';           cards[3].style.opacity = '0';
+      raf = false; return;
+    }
+
+    // Works is now sticky — capture reference on first tick
+    if(stickRef === null) stickRef = sceneBottom;
+
+    const range = Math.max(1, stickRef - viewH);
+    const p     = Math.max(0, Math.min(1, (stickRef - sceneBottom) / range));
 
     // Phase 1 (p 0→0.55): cards 1 & 2 slide in from sides
     const e1 = easeOut(Math.min(1, p / 0.55));
-    cards[0].style.transform = `translateX(${(1 - e1) * -vw * 1.1}px)`;
+    cards[0].style.transform = `translateX(${(1-e1)*-vw*1.1}px)`;
     cards[0].style.opacity   = String(e1);
-    cards[1].style.transform = `translateX(${(1 - e1) *  vw * 1.1}px)`;
+    cards[1].style.transform = `translateX(${(1-e1)* vw*1.1}px)`;
     cards[1].style.opacity   = String(e1);
 
     // Phase 2 (p 0.5→0.9): cards 3 & 4 rise from below
     const e2 = easeOut(Math.min(1, Math.max(0, (p - 0.5) / 0.4)));
-    cards[2].style.transform = `translateY(${(1 - e2) * 80}px)`;
+    cards[2].style.transform = `translateY(${(1-e2)*80}px)`;
     cards[2].style.opacity   = String(e2);
-    cards[3].style.transform = `translateY(${(1 - e2) * 80}px)`;
+    cards[3].style.transform = `translateY(${(1-e2)*80}px)`;
     cards[3].style.opacity   = String(e2);
 
     raf = false;
