@@ -1098,12 +1098,6 @@ footer{
 }
 </style>
 
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  // ⚠️ Reemplaza con tu Public Key de EmailJS
-  emailjs.init('B5Al7xlpALdmZj_Fj');
-</script>
 </head>
 <body>
 
@@ -1689,14 +1683,13 @@ function toggleSvc(row) {
   goTo(0);
 })();
 
-/* ─── Contact form con EmailJS ─── */
+/* ─── Contact form → HubSpot CRM ─── */
 function handleForm(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.form-btn');
   const successMsg = document.getElementById('success-msg');
 
-  // Recoger los datos del formulario
-  const templateParams = {
+  const fields = {
     nombre:   document.getElementById('cf-nombre').value.trim(),
     apellido: document.getElementById('cf-apellido').value.trim(),
     email:    document.getElementById('cf-email').value.trim(),
@@ -1704,54 +1697,45 @@ function handleForm(e) {
     mensaje:  document.getElementById('cf-mensaje').value.trim(),
   };
 
-  // Estado de carga
   btn.disabled = true;
   btn.textContent = 'Enviando...';
   btn.style.opacity = '.7';
   successMsg.classList.remove('show', 'error');
 
-  // Enviar a HubSpot CRM (en paralelo con EmailJS)
   fetch('https://api.hsforms.com/submissions/v3/integration/submit/148697930/3cc2c593-2d32-479c-81af-628ebe45b51b', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       fields: [
-        { name: 'firstname', value: templateParams.nombre },
-        { name: 'lastname',  value: templateParams.apellido },
-        { name: 'email',     value: templateParams.email },
-        { name: 'message',   value: (templateParams.asunto ? templateParams.asunto + '\n\n' : '') + templateParams.mensaje },
+        { name: 'firstname', value: fields.nombre },
+        { name: 'lastname',  value: fields.apellido },
+        { name: 'email',     value: fields.email },
+        { name: 'message',   value: (fields.asunto ? fields.asunto + '\n\n' : '') + fields.mensaje },
       ],
-      context: {
-        pageUri: window.location.href,
-        pageName: 'ATTRA - Contacto'
-      }
+      context: { pageUri: window.location.href, pageName: 'ATTRA - Contacto' }
     })
-  }).catch(() => {}); // silencioso — el email sigue funcionando aunque falle
-
-  emailjs.send('service_3a7cvsj', 'template_3k5xd5g', templateParams)
-    .then(() => {
-      // Éxito
-      successMsg.textContent = '✓ ¡Mensaje enviado! Te contactaremos pronto.';
-      successMsg.style.background = '#e8f8ef';
-      successMsg.style.borderColor = '#4CAF50';
-      successMsg.style.color = '#2a7a3e';
-      successMsg.classList.add('show');
-      e.target.reset();
-    })
-    .catch((error) => {
-      // Error
-      console.error('EmailJS error:', error);
-      successMsg.textContent = '✗ Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
-      successMsg.style.background = '#fff0f0';
-      successMsg.style.borderColor = '#e53935';
-      successMsg.style.color = '#b71c1c';
-      successMsg.classList.add('show');
-    })
-    .finally(() => {
-      btn.disabled = false;
-      btn.textContent = 'Enviar Mensaje';
-      btn.style.opacity = '';
-    });
+  })
+  .then(res => {
+    if (!res.ok) throw new Error(res.status);
+    successMsg.textContent = '✓ ¡Mensaje enviado! Te contactaremos pronto.';
+    successMsg.style.background = '#e8f8ef';
+    successMsg.style.borderColor = '#4CAF50';
+    successMsg.style.color = '#2a7a3e';
+    successMsg.classList.add('show');
+    e.target.reset();
+  })
+  .catch(() => {
+    successMsg.textContent = '✗ Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
+    successMsg.style.background = '#fff0f0';
+    successMsg.style.borderColor = '#e53935';
+    successMsg.style.color = '#b71c1c';
+    successMsg.classList.add('show');
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Enviar Mensaje';
+    btn.style.opacity = '';
+  });
 }
 </script>
 <!-- COOKIE BANNER -->
