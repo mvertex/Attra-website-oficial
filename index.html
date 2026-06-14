@@ -305,13 +305,15 @@ a{text-decoration:none;}
 /* Works scroll-pinned scene */
 #works-scene{ height:300vh; }
 #works{
+  background:var(--dark2);  /* mismo azul que services */
   position:sticky;top:0;
   min-height:100vh;
   overflow:hidden;
+  z-index:2;
 }
 @media(max-width:900px){
   #works-scene{ height:auto; }
-  #works{ position:relative; overflow:visible; }
+  #works{ position:relative; overflow:visible; background:transparent; }
 }
 .glass-tag{
   transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
@@ -1168,10 +1170,8 @@ footer{
   </div>
 </section>
 
-<!-- STICKY WRAPPER: services + works — cards animate over blue services bg -->
-<div class="sticky-scene" id="works-scene">
-
-<!-- SERVICES -->
+<!-- SERVICES — own sticky-scene -->
+<div class="sticky-scene">
 <section id="services">
   <div class="services-head">
     <h2>
@@ -1179,9 +1179,11 @@ footer{
       <span class="svc-name">ATTRA</span>
     </h2>
   </div>
-
 </section>
+</div>
 
+<!-- WORKS — solo en su propio sticky-scene, mismo fondo azul que services -->
+<div class="sticky-scene" id="works-scene">
 <section id="works">
 
   <div class="works-grid">
@@ -2130,33 +2132,38 @@ function loadAnalytics() {
 
   // Disable CSS transitions — positions driven 1:1 by scroll
   cards.forEach(c => {
-    c.style.transition  = 'none';
-    c.style.willChange  = 'transform, opacity';
+    c.style.transition = 'none';
+    c.style.willChange = 'transform, opacity';
   });
 
   function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
 
   let raf = false;
   function update(){
-    const top  = scene.getBoundingClientRect().top;
-    const room = scene.offsetHeight - window.innerHeight;
-    // p = 0 when scene starts, 1 when scene ends; clamped
-    const p = Math.max(0, Math.min(1, -top / room));
+    const sceneTop = scene.getBoundingClientRect().top;
+    const viewH    = window.innerHeight;
+    // Scene has 300vh. Works is min-height 100vh and the only sticky child.
+    // Works sticks from scroll=0 to scroll=(300vh-100vh)=200vh within scene.
+    // room = scene.offsetHeight - viewH = reliable when scene has explicit height.
+    const room = scene.offsetHeight - viewH;
+    if(room <= 0){ raf = false; return; }
+
+    const p = Math.max(0, Math.min(1, -sceneTop / room));
     const vw = window.innerWidth;
 
     // Phase 1 (p 0→0.55): cards 1 & 2 slide in from sides
     const e1 = easeOut(Math.min(1, p / 0.55));
     cards[0].style.transform = `translateX(${(1 - e1) * -vw * 1.1}px)`;
-    cards[0].style.opacity   = e1;
+    cards[0].style.opacity   = String(e1);
     cards[1].style.transform = `translateX(${(1 - e1) *  vw * 1.1}px)`;
-    cards[1].style.opacity   = e1;
+    cards[1].style.opacity   = String(e1);
 
-    // Phase 2 (p 0.5→0.9): cards 3 & 4 rise up
+    // Phase 2 (p 0.5→0.9): cards 3 & 4 rise from below
     const e2 = easeOut(Math.min(1, Math.max(0, (p - 0.5) / 0.4)));
     cards[2].style.transform = `translateY(${(1 - e2) * 80}px)`;
-    cards[2].style.opacity   = e2;
+    cards[2].style.opacity   = String(e2);
     cards[3].style.transform = `translateY(${(1 - e2) * 80}px)`;
-    cards[3].style.opacity   = e2;
+    cards[3].style.opacity   = String(e2);
 
     raf = false;
   }
@@ -2166,7 +2173,7 @@ function loadAnalytics() {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  update(); // initial state on load
+  update();
 })();
 
 // Mostrar banner si no hay preferencia guardada (o expiró)
