@@ -2164,37 +2164,44 @@ function loadAnalytics() {
   gtag('config', 'G-XXXXXXXXXX'); // reemplaza con tu ID de GA4
 }
 
-// Works grid entrance animation
+// Works grid entrance animation — replays every time user scrolls back up then down
 (function(){
   const grid = document.querySelector('#works .works-grid');
   const section = document.getElementById('works');
   if(!grid || !section) return;
   if(window.innerWidth <= 900) return;
 
-  let animated = false;
+  // 'idle' = reset/waiting, 'done' = animation played
+  let state = 'idle';
 
-  function tryAnimate() {
-    if(animated) return;
+  function check() {
     const rect = section.getBoundingClientRect();
-    if(rect.top < window.innerHeight * 0.85) {
-      animated = true;
-      window.removeEventListener('scroll', tryAnimate);
-      // 1. Snap cards to off-screen instantly (no transition yet)
+    const viewH = window.innerHeight;
+
+    // Section is fully below viewport → reset so animation can replay
+    if(rect.top > viewH * 0.9 && state === 'done') {
+      state = 'idle';
+      grid.classList.remove('wc-p1', 'wc-p2', 'wc-init');
+    }
+
+    // Section entering from below → play animation
+    if(rect.top < viewH * 0.85 && state === 'idle') {
+      state = 'done';
+      // Snap cards off-screen with no transition
+      grid.classList.remove('wc-p1', 'wc-p2');
       grid.classList.add('wc-init');
-      // 2. Wait 2 frames so browser paints the off-screen state
+      // Two frames ensures browser paints the off-screen state first
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          // 3. Now start the transition
           grid.classList.remove('wc-init');
           grid.classList.add('wc-p1');
-          // 4. Cards 3 & 4 appear after 1 & 2 have settled
           setTimeout(() => grid.classList.add('wc-p2'), 700);
         });
       });
     }
   }
 
-  window.addEventListener('scroll', tryAnimate, { passive: true });
+  window.addEventListener('scroll', check, { passive: true });
 })();
 
 // Mostrar banner si no hay preferencia guardada (o expiró)
