@@ -1710,7 +1710,24 @@ function handleForm(e) {
   btn.style.opacity = '.7';
   successMsg.classList.remove('show', 'error');
 
-  // ⚠️ Reemplaza con tu Service ID y Template ID
+  // Enviar a HubSpot CRM (en paralelo con EmailJS)
+  fetch('https://api.hsforms.com/submissions/v3/integration/submit/148697930/3cc2c593-2d32-479c-81af-628ebe45b51b', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fields: [
+        { name: 'firstname', value: templateParams.nombre },
+        { name: 'lastname',  value: templateParams.apellido },
+        { name: 'email',     value: templateParams.email },
+        { name: 'message',   value: (templateParams.asunto ? templateParams.asunto + '\n\n' : '') + templateParams.mensaje },
+      ],
+      context: {
+        pageUri: window.location.href,
+        pageName: 'ATTRA - Contacto'
+      }
+    })
+  }).catch(() => {}); // silencioso — el email sigue funcionando aunque falle
+
   emailjs.send('service_3a7cvsj', 'template_3k5xd5g', templateParams)
     .then(() => {
       // Éxito
