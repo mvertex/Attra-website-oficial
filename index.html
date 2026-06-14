@@ -302,15 +302,29 @@ a{text-decoration:none;}
     0 24px 56px rgba(0,0,0,.18);
 }
 
-/* Works scroll-pinned scene */
-#works-scene{ height:230vh; }
-#works{
+/* Works scroll-pinned scene — single sticky stage */
+#works-scene{ height:200vh; }
+#portfolio-stage{
   position:sticky;top:0;
+  height:100vh;
+  overflow:hidden;   /* clips cards during animation — no overflow into next section */
+}
+#services{
+  position:absolute;inset:0;
+  z-index:1;
+}
+#works{
+  position:absolute;inset:0;
   z-index:2;
+  background:transparent;
+  padding:40px 60px;
+  display:flex;align-items:center;
 }
 @media(max-width:900px){
   #works-scene{ height:auto; }
-  #works{ position:relative; }
+  #portfolio-stage{ position:relative; height:auto; overflow:visible; }
+  #services{ position:relative; inset:auto; }
+  #works{ position:relative; inset:auto; padding:60px 20px 20px; display:block; }
 }
 .glass-tag{
   transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
@@ -1167,8 +1181,9 @@ footer{
   </div>
 </section>
 
-<!-- WORKS SCENE — services stays fixed behind, cards animate in over it -->
+<!-- WORKS SCENE — single sticky stage, services behind + cards in front -->
 <div class="sticky-scene" id="works-scene">
+<div id="portfolio-stage">
 
 <section id="services">
   <div class="services-head">
@@ -1212,6 +1227,7 @@ footer{
   </div>
 </section>
 
+</div><!-- end portfolio-stage -->
 </div><!-- end works-scene -->
 
 <!-- anchor for Portafolio nav link — must be outside sticky context -->
@@ -2115,12 +2131,11 @@ function loadAnalytics() {
   gtag('config', 'G-XXXXXXXXXX'); // reemplaza con tu ID de GA4
 }
 
-// Works grid — cards animate over fixed services background
+// Works grid — scroll-linked animation inside single sticky stage
 (function(){
-  const scene    = document.getElementById('works-scene');
-  const services = document.getElementById('services');
-  const grid     = document.querySelector('#works .works-grid');
-  if(!scene || !services || !grid) return;
+  const scene = document.getElementById('works-scene');
+  const grid  = document.querySelector('#works .works-grid');
+  if(!scene || !grid) return;
   if(window.innerWidth <= 900) return;
 
   const cards = Array.from(grid.querySelectorAll('.work-card'));
@@ -2132,33 +2147,19 @@ function loadAnalytics() {
 
   let raf = false;
   function update(){
-    const sceneTop   = scene.getBoundingClientRect().top;
-    const viewH      = window.innerHeight;
-    const vw         = window.innerWidth;
-    // How far we've scrolled into the scene
-    const scrolled   = -sceneTop;
-    // Works starts sticking after services height has scrolled by
-    const svcH       = services.offsetHeight;
-    // Total scroll range available for works animation
-    const animRoom   = scene.offsetHeight - viewH - svcH;
+    const top  = scene.getBoundingClientRect().top;
+    const room = scene.offsetHeight - window.innerHeight; // 200vh - 100vh = 100vh
+    const p    = Math.max(0, Math.min(1, -top / room));
+    const vw   = window.innerWidth;
 
-    // Before works is stuck: cards off-screen
-    if(scrolled < svcH){
-      cards[0].style.transform = `translateX(${-vw*1.1}px)`; cards[0].style.opacity = '0';
-      cards[1].style.transform = `translateX(${ vw*1.1}px)`; cards[1].style.opacity = '0';
-      cards[2].style.transform = 'translateY(80px)';           cards[2].style.opacity = '0';
-      cards[3].style.transform = 'translateY(80px)';           cards[3].style.opacity = '0';
-      raf = false; return;
-    }
-
-    const p  = Math.max(0, Math.min(1, (scrolled - svcH) / Math.max(1, animRoom)));
-
+    // Phase 1 (p 0→0.55): cards 1 & 2 in from sides
     const e1 = easeOut(Math.min(1, p / 0.55));
     cards[0].style.transform = `translateX(${(1-e1)*-vw*1.1}px)`;
     cards[0].style.opacity   = String(e1);
     cards[1].style.transform = `translateX(${(1-e1)* vw*1.1}px)`;
     cards[1].style.opacity   = String(e1);
 
+    // Phase 2 (p 0.5→0.9): cards 3 & 4 rise
     const e2 = easeOut(Math.min(1, Math.max(0, (p-0.5)/0.4)));
     cards[2].style.transform = `translateY(${(1-e2)*80}px)`;
     cards[2].style.opacity   = String(e2);
