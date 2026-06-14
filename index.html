@@ -303,28 +303,28 @@ a{text-decoration:none;}
 }
 
 /* Works scroll-pinned scene — single sticky stage */
-#works-scene{ height:200vh; }
+#works-scene{ height:220vh; }
 #portfolio-stage{
   position:sticky;top:0;
-  height:100vh;
-  overflow:hidden;   /* clips cards during animation — no overflow into next section */
 }
 #services{
-  position:absolute;inset:0;
+  position:relative;
   z-index:1;
 }
 #works{
-  position:absolute;inset:0;
+  position:absolute;
+  top:0;left:0;right:0;
   z-index:2;
   background:transparent;
-  padding:40px 60px;
-  display:flex;align-items:center;
+  pointer-events:none;
+}
+#works .works-grid{
+  pointer-events:auto;
 }
 @media(max-width:900px){
   #works-scene{ height:auto; }
-  #portfolio-stage{ position:relative; height:auto; overflow:visible; }
-  #services{ position:relative; inset:auto; }
-  #works{ position:relative; inset:auto; padding:60px 20px 20px; display:block; }
+  #portfolio-stage{ position:relative; }
+  #works{ position:relative; top:auto; }
 }
 .glass-tag{
   transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
