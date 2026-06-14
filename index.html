@@ -301,6 +301,59 @@ a{text-decoration:none;}
     0 8px 24px rgba(0,0,0,.12),
     0 24px 56px rgba(0,0,0,.18);
 }
+
+/* Works grid entrance animation */
+.works-grid .work-card{
+  transition:
+    transform .75s cubic-bezier(.25,1,.4,1),
+    opacity .6s ease,
+    box-shadow .5s cubic-bezier(.23,1,.32,1);
+}
+.works-grid.wc-init .work-card:nth-child(1){
+  transform:translateX(-120vw);
+  opacity:0;
+}
+.works-grid.wc-init .work-card:nth-child(2){
+  transform:translateX(120vw);
+  opacity:0;
+}
+.works-grid.wc-init .work-card:nth-child(3),
+.works-grid.wc-init .work-card:nth-child(4){
+  opacity:0;
+  transform:translateY(60px);
+}
+.works-grid.wc-p1 .work-card:nth-child(1){
+  transform:translateY(-6px);
+  opacity:1;
+}
+.works-grid.wc-p1 .work-card:nth-child(2){
+  transform:translateY(4px);
+  opacity:1;
+}
+.works-grid.wc-p1 .work-card:nth-child(3),
+.works-grid.wc-p1 .work-card:nth-child(4){
+  opacity:0;
+  transform:translateY(60px);
+}
+.works-grid.wc-p2 .work-card:nth-child(3){
+  opacity:1;
+  transform:translateY(8px);
+  transition-delay:0ms;
+}
+.works-grid.wc-p2 .work-card:nth-child(4){
+  opacity:1;
+  transform:translateY(-2px);
+  transition-delay:130ms;
+}
+@media(max-width:900px){
+  .works-grid.wc-init .work-card,
+  .works-grid.wc-p1 .work-card,
+  .works-grid.wc-p2 .work-card{
+    opacity:1 !important;
+    transform:none !important;
+    transition-delay:0ms !important;
+  }
+}
 .glass-tag{
   transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
 }
@@ -2106,6 +2159,28 @@ function loadAnalytics() {
   gtag('js', new Date());
   gtag('config', 'G-XXXXXXXXXX'); // reemplaza con tu ID de GA4
 }
+
+// Works grid entrance animation
+(function(){
+  const grid = document.querySelector('#works .works-grid');
+  if(!grid) return;
+  if(window.innerWidth <= 900) return; // mobile: no animation
+  grid.classList.add('wc-init');
+  let fired = false;
+  const io = new IntersectionObserver((entries) => {
+    if(fired || !entries[0].isIntersecting) return;
+    fired = true;
+    io.disconnect();
+    // Phase 1: cards 1 & 2 slide in
+    grid.classList.remove('wc-init');
+    grid.classList.add('wc-p1');
+    // Phase 2: cards 3 & 4 appear after 1 & 2 settle
+    setTimeout(() => {
+      grid.classList.add('wc-p2');
+    }, 680);
+  }, { threshold: 0.2 });
+  io.observe(document.getElementById('works'));
+})();
 
 // Mostrar banner si no hay preferencia guardada (o expiró)
 (function initCookieBanner() {
