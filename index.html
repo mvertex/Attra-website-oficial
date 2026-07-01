@@ -1101,6 +1101,10 @@ footer{
 }
 </style>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('p9dDi-vdX8pBm1qht');</script>
+
 </head>
 <body>
 
@@ -1705,40 +1709,27 @@ function handleForm(e) {
   btn.style.opacity = '.7';
   successMsg.classList.remove('show', 'error');
 
-  fetch('https://api.hsforms.com/submissions/v3/integration/submit/148697930/3cc2c593-2d32-479c-81af-628ebe45b51b', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      fields: [
-        { name: 'firstname', value: fields.nombre },
-        { name: 'lastname',  value: fields.apellido },
-        { name: 'email',     value: fields.email },
-        { name: 'message',   value: (fields.asunto ? fields.asunto + '\n\n' : '') + fields.mensaje },
-      ],
-      context: { pageUri: window.location.href, pageName: 'ATTRA - Contacto' }
+  emailjs.send('service_3ljluqo', 'template_o5kft2g', fields)
+    .then(() => {
+      successMsg.textContent = '✓ ¡Mensaje enviado! Te contactaremos pronto.';
+      successMsg.style.background = '#e8f8ef';
+      successMsg.style.borderColor = '#4CAF50';
+      successMsg.style.color = '#2a7a3e';
+      successMsg.classList.add('show');
+      e.target.reset();
     })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error(res.status);
-    successMsg.textContent = '✓ ¡Mensaje enviado! Te contactaremos pronto.';
-    successMsg.style.background = '#e8f8ef';
-    successMsg.style.borderColor = '#4CAF50';
-    successMsg.style.color = '#2a7a3e';
-    successMsg.classList.add('show');
-    e.target.reset();
-  })
-  .catch(() => {
-    successMsg.textContent = '✗ Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
-    successMsg.style.background = '#fff0f0';
-    successMsg.style.borderColor = '#e53935';
-    successMsg.style.color = '#b71c1c';
-    successMsg.classList.add('show');
-  })
-  .finally(() => {
-    btn.disabled = false;
-    btn.textContent = 'Enviar Mensaje';
-    btn.style.opacity = '';
-  });
+    .catch(() => {
+      successMsg.textContent = '✗ Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
+      successMsg.style.background = '#fff0f0';
+      successMsg.style.borderColor = '#e53935';
+      successMsg.style.color = '#b71c1c';
+      successMsg.classList.add('show');
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.textContent = 'Enviar Mensaje';
+      btn.style.opacity = '';
+    });
 }
 </script>
 <!-- COOKIE BANNER -->
