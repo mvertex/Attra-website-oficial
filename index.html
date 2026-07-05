@@ -1098,8 +1098,89 @@ footer{
 
   /* LEGAL FOOTER */
   footer[style]{flex-direction:column;align-items:flex-start;gap:16px;padding:20px!important;}
+
+  /* STORY SCROLL mobile */
+  #story-scroll{ display:none; }
+}
+
+/* ── STORY SCROLL ── */
+#story-scroll{
+  position:relative;
+  overflow-x:hidden;
+}
+.ss-section{
+  position:relative;
+  min-height:100vh;
+  width:100%;
+  overflow:hidden;
+}
+.ss-inner{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:24px;
+  min-height:100vh;
+  width:100%;
+  padding: clamp(2rem,6vw,4rem) clamp(2rem,4vw,5rem);
+  box-sizing:border-box;
+  transform-origin:bottom left;
+  will-change:transform;
+}
+.ss-label{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  opacity:0.7;
+}
+.ss-hr{
+  border:none;
+  border-top:1px solid currentColor;
+  opacity:0.3;
+  margin:0;
+}
+.ss-title{
+  font-size:clamp(3rem,10vw,11rem);
+  font-weight:800;
+  line-height:0.88;
+  text-transform:uppercase;
+  letter-spacing:-0.02em;
+  margin:0;
+}
+.ss-body{
+  font-size:clamp(1rem,2vw,1.6rem);
+  font-weight:400;
+  line-height:1.6;
+  max-width:50ch;
+  margin:0;
+}
+.ss-cols{
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(16px,3vw,48px);
+}
+.ss-col{
+  flex:1;
+  min-width:160px;
+}
+.ss-col-label{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.ss-col-text{
+  font-size:clamp(0.8rem,1.2vw,1rem);
+  line-height:1.65;
+  opacity:0.7;
 }
 </style>
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -1182,6 +1263,81 @@ footer{
     </div>
   </div>
 </section>
+
+<!-- STORY SCROLL -->
+<div id="story-scroll">
+
+  <div class="ss-section">
+    <div class="ss-inner" style="background:#EBFF00;color:#0a1018;">
+      <p class="ss-label">01 — Quiénes somos</p>
+      <hr class="ss-hr">
+      <h2 class="ss-title">Marca.<br>Historia.<br>Impacto.</h2>
+      <hr class="ss-hr">
+      <p class="ss-body">Somos ATTRA, una agencia de marketing creativa que convierte marcas en historias que la gente recuerda. Estrategia, creatividad y ejecución — todo en uno.</p>
+    </div>
+  </div>
+
+  <div class="ss-section">
+    <div class="ss-inner" style="background:#0a1018;color:#fff;">
+      <p class="ss-label">02 — Nuestra misión</p>
+      <hr class="ss-hr">
+      <h2 class="ss-title">Resultados<br>Reales.</h2>
+      <hr class="ss-hr">
+      <p class="ss-body">No hacemos marketing por hacerlo. Cada campaña, cada pieza, cada decisión está diseñada para mover números — visibilidad, leads y ventas.</p>
+      <hr class="ss-hr">
+      <div class="ss-cols">
+        <div class="ss-col">
+          <p class="ss-col-label">Estrategia</p>
+          <p class="ss-col-text">Analizamos tu mercado, tu competencia y tu audiencia antes de mover un solo pixel.</p>
+        </div>
+        <div class="ss-col">
+          <p class="ss-col-label">Creatividad</p>
+          <p class="ss-col-text">Diseño y contenido que detiene el scroll y comunica en segundos.</p>
+        </div>
+        <div class="ss-col">
+          <p class="ss-col-label">Ejecución</p>
+          <p class="ss-col-text">Campañas activas, optimizadas semana a semana para maximizar tu retorno.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ss-section">
+    <div class="ss-inner" style="background:#1d4a8a;color:#fff;">
+      <p class="ss-label">03 — Cómo trabajamos</p>
+      <hr class="ss-hr">
+      <h2 class="ss-title">Simple.<br>Directo.<br>Efectivo.</h2>
+      <hr class="ss-hr">
+      <p class="ss-body">Sin burocracia, sin sorpresas. Un proceso claro desde el primer día hasta los primeros resultados.</p>
+      <hr class="ss-hr">
+      <div class="ss-cols">
+        <div class="ss-col">
+          <p class="ss-col-label">01 — Análisis</p>
+          <p class="ss-col-text">Entendemos tu negocio, tu cliente ideal y tu objetivo de crecimiento.</p>
+        </div>
+        <div class="ss-col">
+          <p class="ss-col-label">02 — Propuesta</p>
+          <p class="ss-col-text">Diseñamos una estrategia a medida y te presentamos el plan completo.</p>
+        </div>
+        <div class="ss-col">
+          <p class="ss-col-label">03 — Resultados</p>
+          <p class="ss-col-text">Lanzamos, medimos y optimizamos. Tú ves el progreso en tiempo real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ss-section">
+    <div class="ss-inner" style="background:#EBFF00;color:#0a1018;">
+      <p class="ss-label">04 — Empecemos</p>
+      <hr class="ss-hr">
+      <h2 class="ss-title">Tu marca<br>te espera.</h2>
+      <hr class="ss-hr">
+      <p class="ss-body">El mejor momento para hacer crecer tu marca fue ayer. El segundo mejor momento es ahora. Hablemos.</p>
+    </div>
+  </div>
+
+</div><!-- end story-scroll -->
 
 <!-- WORKS SCENE — single sticky stage, services behind + cards in front -->
 <div class="sticky-scene" id="works-scene">
@@ -2177,6 +2333,56 @@ function loadAnalytics() {
   function onScroll(){ if(!raf){ raf = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, { passive:true });
   update();
+})();
+
+// Story Scroll — GSAP ScrollTrigger pin + rotate animation
+(function(){
+  if(window.innerWidth <= 900) return;
+  if(typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const container = document.getElementById('story-scroll');
+  if(!container) return;
+
+  const sections = Array.from(container.querySelectorAll('.ss-section'));
+  if(sections.length === 0) return;
+
+  const triggers = [];
+
+  sections.forEach(function(section, i){
+    gsap.set(section, { zIndex: i + 1 });
+
+    const inner = section.querySelector('.ss-inner');
+    if(!inner) return;
+
+    if(i > 0){
+      gsap.set(inner, { rotation: 30, transformOrigin: 'bottom left' });
+      const tween = gsap.to(inner, {
+        rotation: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'top 25%',
+          scrub: true,
+        }
+      });
+      if(tween.scrollTrigger) triggers.push(tween.scrollTrigger);
+    }
+
+    if(i < sections.length - 1){
+      triggers.push(ScrollTrigger.create({
+        trigger: section,
+        start: 'bottom bottom',
+        end: 'bottom top',
+        pin: true,
+        pinSpacing: false,
+      }));
+    }
+  });
+
+  ScrollTrigger.refresh();
 })();
 
 // Mostrar banner si no hay preferencia guardada (o expiró)
