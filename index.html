@@ -1103,6 +1103,46 @@ footer{
   #story-scroll{ display:none; }
 }
 
+/* ── BENTO STATS ── */
+.bento-stats{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:14px;
+  width:100%;
+}
+.bento-card{
+  border-radius:20px;
+  padding:28px 28px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:180px;
+  box-sizing:border-box;
+}
+.bento-card:nth-child(1){ grid-row:1/3; }
+.bento-card:nth-child(2){ grid-row:1/3; }
+.bento-n{
+  font-size:clamp(3rem,6vw,6rem);
+  font-weight:800;
+  line-height:1;
+  letter-spacing:-0.02em;
+}
+.bento-n sup{ font-size:0.45em; vertical-align:super; }
+.bento-label{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  opacity:0.7;
+}
+.bento-desc{
+  font-size:clamp(0.8rem,1.1vw,0.95rem);
+  line-height:1.5;
+  opacity:0.75;
+  margin-top:6px;
+}
+
 /* ── STORY SCROLL ── */
 #story-scroll{
   position:relative;
@@ -1248,22 +1288,29 @@ footer{
       <h2 class="about-big-h" style="color:#fff;max-width:100%;font-size:clamp(1.4rem,3.2vw,3rem);text-align:center;margin:0;">
         Nacimos en una era donde la atención es el activo más valioso. Por eso creamos estrategias que no solo generan visibilidad, sino resultados que impulsan el crecimiento. Vivimos el marketing moderno, lo entendemos y lo ejecutamos cada día.
       </h2>
-      <div class="stats-row">
-        <div class="stat-card reveal reveal-d1" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);">
-          <div class="stat-n" style="color:#f1cd0c;"><span class="cnt" data-to="6">0</span><sup>+</sup></div>
-          <div class="stat-l" style="color:#fff;">Servicios Personalizados</div>
+      <div class="bento-stats">
+        <!-- Card 1: dark, large, spans 2 rows -->
+        <div class="bento-card reveal" style="background:#0a1018;">
+          <p class="bento-label" style="color:#f1cd0c;">Servicios</p>
+          <div class="bento-n" style="color:#f1cd0c;"><span class="cnt" data-to="6">0</span><sup>+</sup></div>
+          <p class="bento-desc" style="color:#fff;">Soluciones de marketing completamente personalizadas para tu negocio.</p>
         </div>
-        <div class="stat-card reveal reveal-d2" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);">
-          <div class="stat-n" style="color:#f1cd0c;"><span class="cnt" data-to="3">0</span><sup>+</sup></div>
-          <div class="stat-l" style="color:#fff;">Países Alcanzados</div>
+        <!-- Card 2: white, spans 2 rows -->
+        <div class="bento-card reveal" style="background:#fff;color:#0a1018;">
+          <p class="bento-label" style="color:#1d4a8a;">Campañas</p>
+          <div class="bento-n" style="color:#0a1018;">100<sup>%</sup></div>
+          <p class="bento-desc" style="color:#0a1018;">De nuestras campañas están diseñadas a medida. Sin plantillas.</p>
         </div>
-        <div class="stat-card reveal reveal-d3" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);">
-          <div class="stat-n" style="color:#f1cd0c;">100<sup>%</sup></div>
-          <div class="stat-l" style="color:#fff;">Campañas Personalizadas</div>
+        <!-- Card 3: yellow, top right -->
+        <div class="bento-card reveal" style="background:#f1cd0c;color:#0a1018;">
+          <p class="bento-label">Países</p>
+          <div class="bento-n"><span class="cnt" data-to="3">0</span><sup>+</sup></div>
+          <p class="bento-desc">Alcanzados con nuestras estrategias digitales.</p>
         </div>
-        <div class="stat-card reveal reveal-d1" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);">
-          <div class="stat-n" style="color:#f1cd0c;"><span class="cnt" data-to="5">0</span><sup>+</sup></div>
-          <div class="stat-l" style="color:#fff;">Años de Experiencia</div>
+        <!-- Card 4: dark, bottom right -->
+        <div class="bento-card reveal" style="background:rgba(255,255,255,0.08);display:flex;flex-direction:row;align-items:center;justify-content:space-between;min-height:auto;padding:22px 28px;">
+          <p class="bento-label" style="color:#fff;">Años de<br>Experiencia</p>
+          <div class="bento-n" style="color:#f1cd0c;"><span class="cnt" data-to="5">0</span><sup>+</sup></div>
         </div>
       </div>
     </div>
