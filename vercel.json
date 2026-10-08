@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/faq", "destination": "/preguntas-frecuentes/", "permanent": true },
+    { "source": "/faq/", "destination": "/preguntas-frecuentes/", "permanent": true }
+  ]
+}

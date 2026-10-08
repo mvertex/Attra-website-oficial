@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Carpetas de trabajo que no deben aparecer en Google
+Disallow: /Informacion/
+Disallow: /uploads/
+Disallow: /componentes/
+Disallow: /madsmatters-clone/
+Disallow: /index.backup.html
+
+Sitemap: https://www.attramarketing.com/sitemap.xml

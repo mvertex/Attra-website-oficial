@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyectos | ATTRA Agencia de Marketing Digital en Madrid</title>
+<meta name="description" content="Portafolio de ATTRA: branding, packaging, sitios web, apps y campañas para marcas como Vertex, Nova, Nura, Tonic, Origen y Savor Coffee.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://www.attramarketing.com/work/">
+<meta name="theme-color" content="#2865a4">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="ATTRA Marketing">
+<meta property="og:url" content="https://www.attramarketing.com/work/">
+<meta property="og:title" content="Proyectos | ATTRA Marketing">
+<meta property="og:description" content="Branding, packaging, sitios web, apps y campañas que hemos creado para nuestros clientes.">
+<meta property="og:image" content="https://www.attramarketing.com/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" sizes="48x48" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2865a4;
+  --blue-deep:#1d4a8a;
+  --yellow:#f1cd0c;
+  --yellow-2:#ffe552;
+  --ink:#0a1018;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{font-family:'Urbanist',sans-serif;background:var(--blue);color:#fff;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;top:20px;left:50%;z-index:200;transform:translateX(-50%);
+  width:calc(100% - 80px);max-width:1300px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;border-radius:100px;
+  background:rgba(20,24,28,0.55);
+  backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.nav-logo img{height:36px;width:auto;border-radius:4px;}
+.nav-links{display:flex;gap:30px;list-style:none;margin-left:auto;margin-right:24px;}
+.nav-links a{font-family:'Lato',sans-serif;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--yellow);}
+.nav-cta{
+  font-family:'Lato',sans-serif;background:var(--yellow);color:var(--blue);
+  padding:10px 26px;border-radius:100px;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .2s,transform .2s;
+}
+.nav-cta:hover{background:var(--yellow-2);transform:translateY(-1px);}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;z-index:201;}
+.nav-hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:transform .3s,opacity .3s;}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mobile-menu{
+  position:fixed;inset:0;z-index:199;background:rgba(20,24,28,0.97);backdrop-filter:blur(24px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
+}
+#mobile-menu.open{opacity:1;pointer-events:auto;}
+#mobile-menu ul{list-style:none;text-align:center;display:flex;flex-direction:column;gap:4px;}
+.mobile-link{font-size:36px;font-weight:700;color:rgba(255,255,255,0.75);letter-spacing:-.02em;display:block;padding:10px 0;transition:color .2s;}
+.mobile-link:hover,.mobile-link[aria-current="page"]{color:var(--yellow);}
+.mobile-menu-cta{margin-top:24px;background:var(--yellow);color:#24282b;font-family:'Lato',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:14px 40px;border-radius:100px;}
+
+/* ── HEADER ── */
+.work-head{
+  max-width:1400px;margin:0 auto;padding:170px 40px 56px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;
+}
+.work-title{
+  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:800;
+  font-size:clamp(72px,14vw,220px);line-height:.82;letter-spacing:-.04em;text-transform:uppercase;
+  color:#fff;
+}
+.work-title span{color:var(--yellow);}
+.work-intro{max-width:380px;font-size:18px;line-height:1.55;color:rgba(255,255,255,.8);padding-bottom:10px;}
+.work-intro strong{color:#fff;font-weight:700;}
+
+/* ── GRID (filas justificadas: cada pieza crece según su proporción, sin recortes) ── */
+.work-grid{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;flex-direction:column;gap:14px;}
+.work-row{display:flex;gap:14px;}
+.work-item{
+  flex:var(--ar) 1 0;aspect-ratio:var(--ar);
+  position:relative;overflow:hidden;border-radius:6px;background:var(--blue-deep);
+  opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease);
+}
+.work-item.in{opacity:1;transform:none;}
+.work-item img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease);}
+.work-item:hover img{transform:scale(1.045);}
+.work-item figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:48px 20px 18px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  background:linear-gradient(to top,rgba(10,16,24,.75),rgba(10,16,24,0));
+  opacity:0;transform:translateY(10px);transition:opacity .4s var(--ease),transform .4s var(--ease);
+}
+.work-item:hover figcaption,.work-item:focus-within figcaption{opacity:1;transform:none;}
+.work-name{font-weight:800;font-size:20px;letter-spacing:-.01em;}
+.work-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.work-tags span{
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--yellow);color:var(--ink);padding:5px 10px;border-radius:100px;
+}
+
+/* ── CTA ── */
+.work-cta{
+  max-width:1400px;margin:0 auto;padding:120px 40px 140px;
+  display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+}
+.work-cta h2{
+  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;
+  font-size:clamp(40px,6vw,88px);line-height:.9;letter-spacing:-.03em;
+}
+.work-cta h2 span{color:var(--yellow);}
+.btn-yellow{
+  display:inline-block;font-family:'Lato',sans-serif;background:var(--yellow);color:var(--ink);
+  padding:18px 40px;border-radius:100px;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .2s,transform .2s;
+}
+.btn-yellow:hover{background:var(--yellow-2);transform:translateY(-2px);}
+
+/* ── FOOTER ── */
+footer{background:#111315;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'Lato',sans-serif;font-size:12px;}
+footer p{color:rgba(255,255,255,.35);}
+footer nav{display:flex;gap:20px;flex-wrap:wrap;}
+footer nav a{color:rgba(255,255,255,.4);transition:color .2s;}
+footer nav a:hover{color:var(--yellow);}
+
+@media(max-width:1100px){
+  .nav-links{gap:20px;}
+}
+@media(max-width:900px){
+  #nav{padding:14px 20px;width:calc(100% - 32px);top:12px;}
+  .nav-links,.nav-cta{display:none;}
+  .nav-hamburger{display:flex;}
+  .work-head{padding:130px 16px 40px;}
+  .work-grid{padding:0 16px;gap:12px;}
+  .work-row{flex-direction:column;gap:12px;}
+  .work-item{flex:none;width:100%;}
+  .work-item figcaption{opacity:1;transform:none;padding:40px 14px 14px;}
+  .work-cta{padding:80px 16px 100px;}
+  footer{padding:24px 16px;}
+}
+@media(prefers-reduced-motion:reduce){
+  .work-item{opacity:1;transform:none;transition:none;}
+  .work-item img{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav" aria-label="Navegación principal">
+  <a href="/" class="nav-logo" aria-label="ATTRA — inicio">
+    <img src="../img/logo-attra.png" alt="ATTRA Marketing" width="72" height="36">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/work/" aria-current="page">Trabajo</a></li>
+    <li><a href="/preguntas-frecuentes/">FAQ</a></li>
+  </ul>
+  <a href="../#contact" class="nav-cta">Conversemos</a>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="mobile-menu">
+  <ul>
+    <li><a href="/work/" class="mobile-link" aria-current="page">Trabajo</a></li>
+    <li><a href="/preguntas-frecuentes/" class="mobile-link">FAQ</a></li>
+  </ul>
+  <a href="../#contact" class="mobile-menu-cta">Conversemos</a>
+</div>
+
+<main>
+  <header class="work-head">
+    <h1 class="work-title">Work<span>.</span></h1>
+    <p class="work-intro"><strong>Proyectos seleccionados.</strong> Marcas, productos y experiencias digitales que hemos construido junto a nuestros clientes.</p>
+  </header>
+
+  <section class="work-grid" aria-label="Proyectos">
+    <div class="work-row">
+      <figure class="work-item" style="--ar:1.5">
+        <img src="../img/proyecto-1.jpg" alt="Vertex: diseño de app móvil para descubrir experiencias" width="1200" height="800" decoding="async">
+        <figcaption><span class="work-name">Vertex App</span><span class="work-tags"><span>UI/UX</span><span>App Marketing</span></span></figcaption>
+      </figure>
+      <figure class="work-item" style="--ar:0.8006">
+        <img src="../img/vertex-branding.jpg" alt="Vertex: colección de ropa y accesorios outdoor con la marca aplicada" width="1000" height="1249" decoding="async">
+        <figcaption><span class="work-name">Vertex</span><span class="work-tags"><span>Branding</span><span>Merch</span></span></figcaption>
+      </figure>
+      <figure class="work-item" style="--ar:1.5">
+        <img src="../img/proteina-mockup.jpg" alt="Nova: botes de proteína en cinco sabores sobre pedestales" width="1200" height="800" decoding="async">
+        <figcaption><span class="work-name">Nova</span><span class="work-tags"><span>Branding</span><span>Paid Ads</span><span>SEO</span></span></figcaption>
+      </figure>
+    </div>
+
+    <div class="work-row">
+      <figure class="work-item" style="--ar:1.5">
+        <img src="../img/cafe-ad-real.jpg" alt="Savor Coffee: campaña «More sleep. Less waiting.» con sacos de café apilados" width="1200" height="800" loading="lazy" decoding="async">
+        <figcaption><span class="work-name">Savor Coffee</span><span class="work-tags"><span>Publicidad</span><span>Paid Ads</span></span></figcaption>
+      </figure>
+      <figure class="work-item" style="--ar:1.5">
+        <img src="../img/vertex-mockup-website.jpg" alt="Vertex: sitio web «Escape the static» en un monitor" width="1200" height="800" loading="lazy" decoding="async">
+        <figcaption><span class="work-name">Vertex Web</span><span class="work-tags"><span>Sitio web</span><span>UI/UX</span></span></figcaption>
+      </figure>
+      <figure class="work-item" style="--ar:1.7778">
+        <img src="../img/vertex-app-deck.jpg" alt="Vertex: presentación de la app con tres pantallas y el logotipo" width="1600" height="900" loading="lazy" decoding="async">
+        <figcaption><span class="work-name">Vertex Deck</span><span class="work-tags"><span>Presentación</span><span>UI/UX</span></span></figcaption>
+      </figure>
+    </div>
+
+    <div class="work-row">
+      <figure class="work-item" style="--ar:1.5">
+        <img src="../img/nura-bars.jpg" alt="Nura: packaging de barritas de proteína en cinco sabores" width="1200" height="800" loading="lazy" decoding="async">
+        <figcaption><span class="work-name">Nura</span><span class="work-tags"><span>Branding</span><span>Packaging</span></span></figcaption>
+      </figure>
+      <figure class="work-item" style="--ar:1.5">
+        <img src="../img/tomic-mockup.jpg" alt="Tonic: pala de pádel, funda y botella con la identidad de marca" width="1200" height="800" loading="lazy" decoding="async">
+        <figcaption><span class="work-name">Tonic</span><span class="work-tags"><span>Branding</span><span>Producto</span></span></figcaption>
+      </figure>
+      <figure class="work-item" style="--ar:1.7778">
+        <img src="../img/origen-carpinteria.jpg" alt="Origen Carpintería: moodboard de identidad visual con madera y mobiliario" width="1200" height="675" loading="lazy" decoding="async">
+        <figcaption><span class="work-name">Origen Carpintería</span><span class="work-tags"><span>Branding</span><span>Identidad</span></span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="work-cta">
+    <h2>¿Tu marca es<br><span>la siguiente?</span></h2>
+    <a href="../#contact" class="btn-yellow">Conversemos</a>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 ATTRA Agencia de Marketing Digital — Madrid, España</p>
+  <nav aria-label="Pie de página">
+    <a href="../">Inicio</a>
+    <a href="./">Trabajo</a>
+    <a href="../preguntas-frecuentes/">Preguntas frecuentes</a>
+    <a href="../#contact">Contacto</a>
+  </nav>
+</footer>
+
+<script>
+/* Menú móvil */
+(function(){
+  const btn = document.getElementById('nav-hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const toggle = open => { btn.classList.toggle('open', open); menu.classList.toggle('open', open); document.body.style.overflow = open ? 'hidden' : ''; };
+  btn.addEventListener('click', () => toggle(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+})();
+
+/* Aparición de los proyectos al hacer scroll */
+(function(){
+  const items = document.querySelectorAll('.work-item');
+  if(!('IntersectionObserver' in window)){ items.forEach(i => i.classList.add('in')); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  items.forEach((it, i) => { it.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(it); });
+})();
+
+/* Google Analytics solo si el usuario ya aceptó cookies analíticas en la home */
+(function(){
+  let pref = null;
+  try { pref = JSON.parse(localStorage.getItem('attra_cookies_preference')); } catch {}
+  if(!pref || !pref.analytics || (pref.ts && Date.now() - pref.ts > 365 * 86400000)) return;
+  const s = document.createElement('script');
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-7P2JMV4YX2'; s.async = true;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date()); gtag('config', 'G-7P2JMV4YX2');
+})();
+</script>
+</body>
+</html>
