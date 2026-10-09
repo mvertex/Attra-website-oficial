@@ -360,11 +360,11 @@ a{text-decoration:none;}
 .projects-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:40px 24px;
+  gap:48px 28px;
 }
 .project-item{ margin:0; }
 .project-img{
-  aspect-ratio:3/4;
+  aspect-ratio:4/5;
   overflow:hidden;
 }
 .project-img img{
@@ -373,15 +373,27 @@ a{text-decoration:none;}
   transition:transform .55s var(--ease);
 }
 .project-item:hover .project-img img{ transform:scale(1.04); }
-.project-item .card-labels-row{
-  position:static;
-  margin-top:16px;
+.project-meta{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;margin-top:22px;
+}
+.project-name{
+  font-family:'DM Sans',sans-serif;font-weight:700;
+  font-size:clamp(22px,2.2vw,34px);line-height:1;
+  letter-spacing:-.02em;text-transform:uppercase;
+  color:rgb(227,227,227);margin:0;
+}
+.project-cat{
+  font-family:'Lato',sans-serif;font-size:13px;font-weight:400;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(227,227,227,.55);white-space:nowrap;
 }
 @media(max-width:1100px){
-  .projects-grid{ grid-template-columns:repeat(2,1fr); }
+  .projects-grid{ grid-template-columns:repeat(2,1fr);gap:48px 32px; }
 }
 @media(max-width:900px){
-  .projects-grid{ grid-template-columns:1fr;gap:32px; }
+  .projects-grid{ grid-template-columns:1fr;gap:40px; }
+  .projects-wrap{ padding:0 16px 80px !important; }
 }
 
 /* ── WORKS QUOTE SECTION ── */
@@ -1251,30 +1263,27 @@ footer{
   </div>
 </div>
 
-<div style="background:#24282b;padding:0 60px 100px;position:relative;z-index:2;transform:translateZ(0);">
+<div class="projects-wrap" style="background:#24282b;padding:0 32px 100px;position:relative;z-index:2;transform:translateZ(0);">
   <div class="projects-grid">
     <figure class="project-item">
-      <div class="project-img"><img src="img/proyecto-1.jpg" alt="Proyecto de diseño UI/UX y marketing de aplicación móvil" width="1200" height="800" loading="lazy" decoding="async"></div>
-      <figcaption class="card-labels-row">
-        <span class="card-label">UI/UX</span>
-        <span class="card-label">App Marketing</span>
-        <span class="card-label">ASO</span>
+      <div class="project-img"><img src="img/origen-naming.jpg" alt="Naming y branding para Origen, carpintería de mobiliario de madera" width="637" height="485" loading="lazy" decoding="async" style="object-position:left center;"></div>
+      <figcaption class="project-meta">
+        <h3 class="project-name">Origen</h3>
+        <span class="project-cat">Naming</span>
       </figcaption>
     </figure>
     <figure class="project-item">
-      <div class="project-img"><img src="img/proteina-mockup.jpg" alt="Proyecto de marca de proteína: branding, redes sociales, Paid Ads y SEO" width="1200" height="800" loading="lazy" decoding="async"></div>
-      <figcaption class="card-labels-row">
-        <span class="card-label">Branding</span>
-        <span class="card-label">Social Media</span>
-        <span class="card-label">Paid Ads</span>
-        <span class="card-label">SEO</span>
+      <div class="project-img"><img src="img/cafe-lanzamiento.jpg" alt="Post de redes sociales para el lanzamiento de una nueva bebida de Savor Coffee" width="1122" height="1402" loading="lazy" decoding="async"></div>
+      <figcaption class="project-meta">
+        <h3 class="project-name">Savor Coffee</h3>
+        <span class="project-cat">Social Media</span>
       </figcaption>
     </figure>
     <figure class="project-item">
-      <div class="project-img"><img src="img/cafe-ad-real.jpg" alt="Campaña de publicidad ambiental para cafetería" width="1200" height="800" loading="lazy" decoding="async"></div>
-      <figcaption class="card-labels-row">
-        <span class="card-label">Publicidad Ambiental</span>
-        <span class="card-label">Paid Ads</span>
+      <div class="project-img"><img src="img/email-marketing-verano.jpg" alt="Campaña de email marketing de verano para marca de cosmética" width="841" height="1870" loading="lazy" decoding="async" style="object-position:center 20%;"></div>
+      <figcaption class="project-meta">
+        <h3 class="project-name">Viernes de Verano</h3>
+        <span class="project-cat">Email Marketing</span>
       </figcaption>
     </figure>
   </div>
