@@ -2065,10 +2065,30 @@ function loadAnalytics() {
 // Story Scroll — GSAP ScrollTrigger pin
 // (GSAP se carga con defer, así que esperamos a DOMContentLoaded)
 document.addEventListener('DOMContentLoaded', function(){
-  if(window.innerWidth <= 900) return;
   if(typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger);
+
+  // Móvil/iPad vertical: sin pin; el texto de About se pinta de blanco palabra por palabra
+  // mientras recorre la pantalla al hacer scroll
+  if(window.innerWidth <= 900){
+    const text = document.querySelector('#about .about-big-h');
+    if(!text) return;
+    text.innerHTML = text.textContent.trim().split(/\s+/)
+      .map(function(w){ return '<span class="reveal-word">' + w + '</span>'; }).join(' ');
+    gsap.to(text.querySelectorAll('.reveal-word'), {
+      color: '#ffffff',
+      ease: 'none',
+      stagger: 1,
+      scrollTrigger: {
+        trigger: text,
+        start: 'top 85%',
+        end: 'bottom 35%',
+        scrub: true,
+      },
+    });
+    return;
+  }
 
   const container = document.getElementById('story-scroll');
   if(!container) return;
