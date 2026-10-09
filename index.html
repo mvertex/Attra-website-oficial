@@ -140,13 +140,13 @@ a{text-decoration:none;}
 
 /* ── HERO ── */
 #hero{
-  min-height:100vh;min-height:100svh;background:var(--blue);
+  min-height:100vh;background:var(--blue);
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
 }
 .hero-main{
   display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
-  width:100%;padding:0 72px 40px;min-height:100vh;min-height:100svh;text-align:left;
+  width:100%;padding:0 72px 40px;min-height:100vh;text-align:left;
 }
 .hero-eyebrow{
   display:block;
@@ -894,7 +894,8 @@ footer{
   .nav-hamburger{display:flex;}
 
   /* HERO */
-  .hero-main{padding:0 24px 40px;}
+  /* 100vh llena la pantalla bajo la barra flotante de Safari iOS; el texto se sube lo que mide la barra (100vh - 100svh) */
+  .hero-main{padding:0 24px 40px;padding-bottom:calc(40px + 100vh - 100svh);}
   .hero-h1{flex-direction:column;align-items:flex-start;gap:28px;}
   .hero-logo{align-self:flex-end;margin:0;}
 
@@ -985,7 +986,8 @@ footer{
     gap:20px;
     align-items:center;
   }
-  #about .ss-inner{ align-items:flex-start; }
+  /* About a pantalla completa: se queda fijo mientras el texto se pinta de blanco */
+  #story-scroll #about .ss-inner{ align-items:flex-start;min-height:100vh;padding-bottom:calc(40px + 100vh - 100svh); }
   /* IDEAS panel — compact height */
   #story-scroll .ss-section:last-child .ss-inner{
     padding:40px 20px;
@@ -1018,7 +1020,7 @@ footer{
 /* ── TABLET (iPad vertical): mismo layout que móvil pero con tipografía y aire de tablet ── */
 @media(min-width:601px) and (max-width:900px){
   #nav{width:calc(100% - 48px);padding:16px 28px;}
-  .hero-main{padding:0 48px 56px;}
+  .hero-main{padding:0 48px 56px;padding-bottom:calc(56px + 100vh - 100svh);}
   .hero-eyebrow{font-size:clamp(34px,5.4vw,46px);}
   .hero-logo{--logo-w:clamp(200px,30vw,260px);}
 
@@ -2069,8 +2071,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Móvil/iPad vertical: sin pin; el texto de About se pinta de blanco palabra por palabra
-  // mientras recorre la pantalla al hacer scroll
+  // Móvil/iPad vertical: About (a pantalla completa) se queda fijo mientras el texto
+  // se pinta de blanco palabra por palabra; al acabar sigue el scroll normal
   if(window.innerWidth <= 900){
     const text = document.querySelector('#about .about-big-h');
     if(!text) return;
@@ -2081,12 +2083,15 @@ document.addEventListener('DOMContentLoaded', function(){
       ease: 'none',
       stagger: 1,
       scrollTrigger: {
-        trigger: text,
-        start: 'top 85%',
-        end: 'bottom 35%',
+        trigger: '#about',
+        start: 'top top',
+        end: function(){ return '+=' + window.innerHeight; },
+        pin: true,
         scrub: true,
+        invalidateOnRefresh: true,
       },
     });
+    ScrollTrigger.refresh();
     return;
   }
 
