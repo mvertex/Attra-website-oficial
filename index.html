@@ -1376,7 +1376,7 @@ footer{
         </div>
         <!-- PRIMERA CAPA INFORMATIVA PRIVACIDAD: se muestra al pulsar Enviar por primera vez -->
         <div class="form-privacy-layer">
-          <p><strong>Información básica sobre protección de datos:</strong> Responsable: ATTRA Agencia de Marketing Digital &mdash; Finalidad: atender tu solicitud de información y/o contratación &mdash; Legitimación: consentimiento del interesado &mdash; Destinatarios: EmailJS para el envío del mensaje &mdash; Derechos: acceso, rectificación, cancelación y oposición escribiendo a <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a>. Para más información consulta nuestra <a onclick="openModal('privacy-modal')" href="#">Política de Privacidad</a>.</p>
+          <p><strong>Información básica sobre protección de datos:</strong> Responsable: ATTRA Agencia de Marketing Digital &mdash; Finalidad: atender tu solicitud de información y/o contratación &mdash; Legitimación: consentimiento del interesado &mdash; Destinatarios: EmailJS para el envío del mensaje &mdash; Derechos: acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a>. Para más información consulta nuestra <a onclick="openModal('privacy-modal')" href="#">Política de Privacidad</a>.</p>
           <div class="form-privacy-check">
             <input type="checkbox" id="cf-privacy">
             <label for="cf-privacy">He leído y acepto la <a onclick="openModal('privacy-modal');return false;" href="#">Política de Privacidad</a> y el <a onclick="openModal('legal-modal');return false;" href="#">Aviso Legal</a> de ATTRA.</label>
@@ -1658,20 +1658,23 @@ function handleForm(e) {
       <button class="modal-close" onclick="closeModal('legal-modal')" aria-label="Cerrar">✕</button>
     </div>
     <div class="modal-body">
-      <h4>1. Identificación del Responsable</h4>
-      <p>En cumplimiento de la normativa aplicable, se informa que el titular del presente sitio web es <strong>ATTRA Agencia de Marketing Digital</strong>, con domicilio en Madrid, España y correo electrónico de contacto: <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a>.</p>
+      <h4>1. Datos Identificativos</h4>
+      <!-- TODO: cuando la empresa esté registrada, añadir titular (nombre o razón social), NIF/CIF, domicilio completo y, si es sociedad, datos del Registro Mercantil (art. 10 LSSI-CE). -->
+      <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de que el presente sitio web es titularidad de <strong>ATTRA Agencia de Marketing Digital</strong>, con domicilio en Madrid, España. Correo electrónico de contacto: <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a>. Teléfono: <a href="tel:+34632146927">+34 632 146 927</a>.</p>
       <h4>2. Objeto y Ámbito de Aplicación</h4>
-      <p>El presente Aviso Legal regula el acceso y uso del sitio web <strong>attramarketing.com</strong> (en adelante, «el Sitio»). El acceso al Sitio implica la aceptación plena de las condiciones aquí expuestas. Si no estás de acuerdo con alguna de ellas, te rogamos que no utilices el Sitio.</p>
+      <p>El presente Aviso Legal regula el acceso y uso del sitio web <strong>attramarketing.com</strong> (en adelante, «el Sitio»). El acceso al Sitio atribuye la condición de usuario e implica la aceptación de las condiciones aquí expuestas. Si no estás de acuerdo con alguna de ellas, te rogamos que no utilices el Sitio.</p>
       <h4>3. Propiedad Intelectual e Industrial</h4>
-      <p>Todos los contenidos del Sitio —incluyendo textos, imágenes, logotipos, diseños, código fuente y marca ATTRA— son propiedad exclusiva de ATTRA Agencia de Marketing Digital o de terceros que han otorgado la correspondiente licencia. Queda expresamente prohibida su reproducción, distribución, modificación o uso público sin autorización escrita previa.</p>
+      <p>Todos los contenidos del Sitio —incluyendo textos, imágenes, logotipos, diseños, código fuente y la marca ATTRA— son propiedad de ATTRA o de terceros que han autorizado su uso, y están protegidos por el Real Decreto Legislativo 1/1996, de 12 de abril, por el que se aprueba el texto refundido de la Ley de Propiedad Intelectual, y demás normativa aplicable. Queda prohibida su reproducción, distribución, comunicación pública o transformación sin autorización expresa y por escrito.</p>
       <h4>4. Uso del Sitio y Responsabilidades</h4>
-      <p>El usuario se compromete a hacer un uso lícito del Sitio, absteniéndose de cualquier actividad que pueda dañar, inutilizar o deteriorar el Sitio o impedir un normal disfrute por parte de otros usuarios. ATTRA no se responsabiliza de los daños derivados de un uso indebido del Sitio.</p>
-      <h4>5. Exclusión de Garantías</h4>
-      <p>ATTRA no garantiza la disponibilidad continua del Sitio ni la ausencia de errores en sus contenidos, aunque se esfuerza por mantenerlos actualizados y de calidad. El Sitio puede contener enlaces a terceros sobre los que ATTRA no ejerce ningún control ni responsabilidad.</p>
-      <h4>6. Ley Aplicable y Jurisdicción</h4>
-      <p>Este Aviso Legal se rige por la legislación mexicana vigente, en particular la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP). Para cualquier controversia que surja del uso del Sitio, las partes se someten a los juzgados y tribunales del Estado de Quintana Roo, México.</p>
-      <h4>7. Modificaciones</h4>
-      <p>ATTRA se reserva el derecho de modificar el presente Aviso Legal en cualquier momento. Los cambios entrarán en vigor desde su publicación en el Sitio.</p>
+      <p>El usuario se compromete a hacer un uso lícito del Sitio, conforme a la ley, la buena fe y el presente Aviso Legal, absteniéndose de cualquier actividad que pueda dañar, inutilizar o deteriorar el Sitio o impedir su normal uso por parte de otros usuarios. ATTRA no se responsabiliza de los daños derivados de un uso indebido del Sitio.</p>
+      <h4>5. Exclusión de Garantías y Enlaces</h4>
+      <p>ATTRA no garantiza la disponibilidad continua del Sitio ni la ausencia de errores en sus contenidos, aunque se esfuerza por mantenerlos actualizados. El Sitio puede contener enlaces a sitios de terceros sobre los que ATTRA no ejerce control y de cuyos contenidos no se hace responsable, conforme al artículo 17 de la LSSI-CE.</p>
+      <h4>6. Protección de Datos</h4>
+      <p>El tratamiento de los datos personales que nos facilites se rige por nuestra <a onclick="closeModal('legal-modal');openModal('privacy-modal');return false;" href="#">Política de Privacidad</a>, conforme al Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD).</p>
+      <h4>7. Ley Aplicable y Jurisdicción</h4>
+      <p>El presente Aviso Legal se rige por la legislación española. Para la resolución de cualquier controversia derivada del uso del Sitio, las partes se someten a los juzgados y tribunales de Madrid, salvo que la normativa de consumidores y usuarios establezca otro fuero.</p>
+      <h4>8. Modificaciones</h4>
+      <p>ATTRA se reserva el derecho de modificar el presente Aviso Legal en cualquier momento. Los cambios entrarán en vigor desde su publicación en el Sitio. Última actualización: <strong>octubre 2026</strong>.</p>
     </div>
     <div class="modal-footer">
       <button class="cookie-btn cookie-btn-accept" onclick="closeModal('legal-modal')">Entendido</button>
@@ -1688,40 +1691,43 @@ function handleForm(e) {
     </div>
     <div class="modal-body">
       <h4>1. Responsable del Tratamiento</h4>
+      <!-- TODO: añadir titular (nombre o razón social), NIF/CIF y domicilio completo cuando la empresa esté registrada. -->
       <p><strong>ATTRA Agencia de Marketing Digital</strong>, con domicilio en Madrid, España. Correo: <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a></p>
-      <h4>2. Datos Personales que Recopilamos</h4>
-      <p>A través del formulario de contacto de este Sitio recopilamos los siguientes datos personales proporcionados voluntariamente por el usuario:</p>
+      <h4>2. Datos Personales que Tratamos</h4>
+      <p>A través del formulario de contacto de este Sitio tratamos los siguientes datos que nos facilitas voluntariamente:</p>
       <ul>
         <li><strong>Nombre y apellido</strong>: para personalizar la comunicación.</li>
-        <li><strong>Dirección de correo electrónico</strong>: para responderte a tu solicitud.</li>
+        <li><strong>Dirección de correo electrónico</strong>: para responder a tu solicitud.</li>
         <li><strong>Asunto y mensaje</strong>: para entender tu solicitud de información o contratación.</li>
       </ul>
-      <p>Tus datos <strong>no son vendidos ni cedidos</strong> a terceros con fines comerciales.</p>
+      <p>Tus datos <strong>no se venden ni se ceden</strong> a terceros con fines comerciales.</p>
       <h4>3. Finalidad del Tratamiento</h4>
       <ul>
         <li>Atender tu solicitud de contacto o información sobre nuestros servicios.</li>
         <li>Agendar una reunión o asesoría gratuita contigo.</li>
         <li>Enviarte una propuesta personalizada basada en los datos compartidos.</li>
       </ul>
-      <h4>4. Base Legal (Legitimación)</h4>
-      <p>El tratamiento de tus datos personales se basa en el <strong>consentimiento expreso</strong> que otorgas al marcar la casilla de aceptación antes de enviar el formulario.</p>
-      <h4>5. Destinatarios de los Datos</h4>
-      <p>Tus datos son transmitidos a través del servicio <strong>EmailJS</strong> (proveedor de envío de correo electrónico) con la única finalidad de entregar el mensaje a nuestro equipo. EmailJS actuará como encargado del tratamiento bajo los mismos estándares de protección. No compartimos tus datos con ningún otro tercero sin tu consentimiento.</p>
+      <p>No tomamos decisiones automatizadas ni elaboramos perfiles con tus datos.</p>
+      <h4>4. Base Jurídica (Legitimación)</h4>
+      <p>El tratamiento se basa en tu <strong>consentimiento</strong> (art. 6.1.a RGPD), que otorgas al marcar la casilla de aceptación antes de enviar el formulario, y, en su caso, en la aplicación de medidas precontractuales a petición tuya (art. 6.1.b RGPD). Puedes retirar tu consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento previo.</p>
+      <h4>5. Destinatarios y Transferencias Internacionales</h4>
+      <p>Tus datos se transmiten a través del servicio <strong>EmailJS</strong>, que actúa como encargado del tratamiento con la única finalidad de entregar el mensaje a nuestro equipo. Algunos proveedores tecnológicos pueden estar ubicados fuera del Espacio Económico Europeo; en ese caso, las transferencias se realizan con las garantías adecuadas previstas en el RGPD, como las cláusulas contractuales tipo de la Comisión Europea. No cedemos tus datos a otros terceros salvo obligación legal.</p>
       <h4>6. Conservación de los Datos</h4>
-      <p>Tus datos serán conservados únicamente durante el tiempo necesario para gestionar tu solicitud y, en su caso, mantener la relación comercial, salvo que ejercites tu derecho de cancelación.</p>
-      <h4>7. Derechos ARCO</h4>
-      <p>Conforme a la LFPDPPP, puedes ejercer en cualquier momento tus derechos de:</p>
+      <p>Conservaremos tus datos mientras sea necesario para gestionar tu solicitud y, en su caso, la relación comercial. Después, se mantendrán bloqueados durante los plazos legalmente exigibles y se suprimirán al finalizar estos.</p>
+      <h4>7. Tus Derechos</h4>
+      <p>Conforme al RGPD y la LOPDGDD, puedes ejercer en cualquier momento tus derechos de:</p>
       <ul>
-        <li><strong>Acceso</strong>: saber qué datos tuyos tenemos.</li>
+        <li><strong>Acceso</strong>: saber qué datos tuyos tratamos.</li>
         <li><strong>Rectificación</strong>: corregir datos inexactos.</li>
-        <li><strong>Cancelación</strong>: solicitar la eliminación de tus datos.</li>
-        <li><strong>Oposición</strong>: oponerte al tratamiento de tus datos.</li>
+        <li><strong>Supresión</strong>: solicitar la eliminación de tus datos.</li>
+        <li><strong>Oposición</strong> y <strong>limitación</strong> del tratamiento.</li>
+        <li><strong>Portabilidad</strong>: recibir tus datos en un formato estructurado.</li>
       </ul>
-      <p>Puedes ejercerlos escribiendo a <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a> indicando el derecho que deseas ejercer y adjuntando una copia de tu identificación oficial.</p>
+      <p>Puedes ejercerlos escribiendo a <a href="mailto:hola@attramarketing.com">hola@attramarketing.com</a> e indicando el derecho que deseas ejercer. Si consideras que el tratamiento no se ajusta a la normativa, puedes presentar una reclamación ante la <strong>Agencia Española de Protección de Datos</strong> (<a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
       <h4>8. Seguridad</h4>
-      <p>ATTRA adopta las medidas técnicas y organizativas adecuadas para proteger tus datos contra el acceso no autorizado, la pérdida accidental o la destrucción.</p>
+      <p>ATTRA aplica las medidas técnicas y organizativas adecuadas para proteger tus datos frente al acceso no autorizado, la pérdida accidental o la destrucción.</p>
       <h4>9. Modificaciones</h4>
-      <p>Esta Política de Privacidad puede actualizarse. Te recomendamos revisarla periódicamente. La fecha de última actualización es: <strong>junio 2026</strong>.</p>
+      <p>Esta Política de Privacidad puede actualizarse. Te recomendamos revisarla periódicamente. Última actualización: <strong>octubre 2026</strong>.</p>
     </div>
     <div class="modal-footer">
       <button class="cookie-btn cookie-btn-accept" onclick="closeModal('privacy-modal')">Entendido</button>
