@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página no encontrada | ATTRA</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="48x48" href="/img/favicon-48.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#24282b;
+  --blue:#2865a4;
+  --blue-light:#a2d6f9;
+  --yellow:#f1cd0c;
+  --white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  font-family:'Urbanist',sans-serif;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(20px,4vw,40px);
+  padding:24px 16px;
+  overflow:hidden;
+}
+
+/* Escena: todo se mide en em para escalar con la pantalla */
+.scene{
+  position:relative;
+  font-size:min(90px,10.4vw);
+  width:8.6em;height:5.6em;
+}
+.folder{
+  position:absolute;inset:0;
+  transform:rotate(-4deg);
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{translate:0 0;}
+  50%{translate:0 -.08em;}
+}
+
+/* Parte trasera de la carpeta (amarilla, con pestaña) */
+.tab{
+  position:absolute;
+  left:1.3em;top:.88em;width:2.5em;height:.52em;
+  border-radius:.2em .2em 0 0;
+  clip-path:polygon(0 0,74% 0,100% 100%,0 100%);
+  background:#c9a508;
+}
+.back{
+  position:absolute;
+  left:1.3em;top:1.38em;width:6em;height:3.8em;
+  border-radius:0 .22em .22em .22em;
+  background:linear-gradient(180deg,#e2be0b 0%,var(--yellow) 35%,#f5d935 100%);
+}
+
+/* 404: plano, sin sombras */
+.digits{
+  position:absolute;
+  left:-1em;right:-1em;top:.02em;
+  text-align:center;
+  font-weight:900;
+  font-size:3.5em;
+  line-height:1;
+  letter-spacing:-.06em;
+  color:var(--white);
+  user-select:none;
+}
+
+/* Tapa delantera (cristal azul), unida a la trasera por abajo y abierta hacia fuera.
+   El desenfoque es una copia borrosa de la carpeta recortada dentro de la tapa,
+   así funciona igual en todos los navegadores (sin backdrop-filter). */
+.front{
+  --fx:.95em;--fy:2.8em;
+  position:absolute;
+  left:var(--fx);top:var(--fy);width:6.7em;height:2.47em;
+  overflow:hidden;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 670 247' preserveAspectRatio='none'%3E%3Cpath d='M18 18H652L618 229H52Z' fill='%23000' stroke='%23000' stroke-width='36' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 670 247' preserveAspectRatio='none'%3E%3Cpath d='M18 18H652L618 229H52Z' fill='%23000' stroke='%23000' stroke-width='36' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;
+}
+.ghost{
+  position:absolute;
+  left:calc(-1 * var(--fx));top:calc(-1 * var(--fy));
+  width:8.6em;height:5.6em;
+  filter:blur(.13em);
+}
+.front::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(214,226,248,.55) 0%,
+    rgba(162,214,249,.45) 28%,
+    rgba(60,118,186,.82) 70%,
+    rgba(40,101,164,.97) 100%);
+  box-shadow:inset 0 .03em 0 rgba(255,255,255,.6);
+}
+
+/* Botón */
+.btn{
+  display:inline-block;
+  padding:16px 34px;
+  border-radius:999px;
+  background:var(--yellow);
+  color:#1d2023;
+  font-weight:700;font-size:17px;letter-spacing:.02em;
+  text-decoration:none;
+  transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(241,205,12,.3);}
+.btn:focus-visible{outline:3px solid var(--blue-light);outline-offset:3px;}
+
+@media (prefers-reduced-motion:reduce){
+  .folder{animation:none;}
+  .btn{transition:none;}
+}
+</style>
+</head>
+<body>
+  <div class="scene" role="img" aria-label="Error 404: página no encontrada">
+    <div class="folder" aria-hidden="true">
+      <div class="tab"></div>
+      <div class="back"></div>
+      <div class="digits">404</div>
+      <div class="front">
+        <div class="ghost"><div class="tab"></div><div class="back"></div><div class="digits">404</div></div>
+      </div>
+    </div>
+  </div>
+  <a class="btn" href="/">Volver a casa</a>
+</body>
+</html>
