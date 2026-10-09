@@ -100,6 +100,19 @@ a{text-decoration:none;color:inherit;}
   background:var(--yellow);z-index:1;
 }
 
+/* Pantallas táctiles (iPhone/iPad): sin cursor, el foco lo marca el scroll.
+   La palabra que pasa por el centro se atenúa y encima aparece un proyecto. */
+.svc-hero.touch-mode{display:block;padding:0 16px;}
+.touch-mode .svc-list{padding:calc(43svh - .47em) 0 calc(43svh - .47em);}
+.touch-mode .svc-list li{padding:7svh 0;}
+.svc-preview.touch{
+  left:50%;top:50%;
+  transform:translate(-50%,-50%) scale(.82) rotate(var(--r,0deg));
+  transition:opacity .35s var(--ease),transform .5s cubic-bezier(.34,1.4,.64,1);
+}
+.svc-preview.touch.show{transform:translate(-50%,-50%) scale(1) rotate(var(--r,0deg));}
+.svc-preview.touch img{max-width:min(72vw,440px);max-height:44svh;}
+
 /* ── FOOTER ── */
 footer{background:#111315;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'Lato',sans-serif;font-size:12px;}
 footer p{color:rgba(255,255,255,.35);}
@@ -180,13 +193,68 @@ footer nav a:hover{color:var(--yellow);}
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
 })();
 
+const WORK_IMGS = ["proyecto-1.jpg", "vertex-shoot.jpg", "proteina-mockup.jpg", "cafe-ad-real.jpg", "vertex-mockup-website.jpg", "vertex-app-deck.jpg", "nura-bars.jpg", "tomic-mockup.jpg", "origen-carpinteria.jpg", "donettes-halloween.jpg", "cafe-lanzamiento.jpg", "amarte-poster.jpg", "vertex-email.jpg", "carlota-glow.jpg", "carlota-pantone.jpg", "coming-soon.jpg", "email-marketing-verano.jpg", "origen-naming.jpg"].map(f => '../img/' + f);
+
+/* Hero táctil (iPhone/iPad): al hacer scroll, la palabra que cruza el centro de la pantalla
+   se activa y aparece un proyecto encima; cada palabra nueva trae el siguiente proyecto */
+(function(){
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  const hero = document.querySelector('.svc-hero');
+  const words = [...document.querySelectorAll('#svc-list span')];
+  const box = document.getElementById('svc-preview');
+  const img = box.querySelector('img');
+  const smooth = !matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const srcs = WORK_IMGS.slice().sort(() => Math.random() - .5);
+  hero.classList.add('touch-mode');
+  box.classList.add('touch');
+
+  let next = 0, active = null, ticking = false;
+  const preload = i => { const p = new Image(); p.src = srcs[i % srcs.length]; };
+  preload(0);
+
+  const setActive = w => {
+    if(w === active) return;
+    if(active) active.classList.remove('is-active');
+    active = w;
+    if(w){
+      w.classList.add('is-active');
+      img.src = srcs[next % srcs.length];
+      next++; preload(next);
+      box.style.setProperty('--r', (next % 2 ? -3 : 3) + 'deg');
+      if(smooth && box.classList.contains('show')){
+        img.animate([{opacity:.3, transform:'scale(.94)'}, {opacity:1, transform:'none'}],
+          {duration:380, easing:'cubic-bezier(.34,1.4,.64,1)'});
+      }
+    }
+    box.classList.toggle('show', !!w);
+  };
+
+  const update = () => {
+    ticking = false;
+    const mid = innerHeight / 2;
+    let best = null, bestD = Infinity;
+    words.forEach(w => {
+      const r = w.getBoundingClientRect();
+      const d = Math.abs(r.top + r.height / 2 - mid);
+      if(d < bestD){ bestD = d; best = w; }
+    });
+    // Solo se activa si la palabra está cerca del centro (entre palabras no hay hueco)
+    const li = best && best.parentElement.getBoundingClientRect().height;
+    setActive(best && bestD < li * .75 ? best : null);
+  };
+  const onScroll = () => { if(!ticking){ ticking = true; requestAnimationFrame(update); } };
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', onScroll);
+  update();
+})();
+
 /* Hero: al mover el cursor sobre los servicios aparece un proyecto al azar que lo sigue */
 (function(){
   if(!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   const list = document.getElementById('svc-list');
   const box = document.getElementById('svc-preview');
   const img = box.querySelector('img');
-  const srcs = ["proyecto-1.jpg", "vertex-shoot.jpg", "proteina-mockup.jpg", "cafe-ad-real.jpg", "vertex-mockup-website.jpg", "vertex-app-deck.jpg", "nura-bars.jpg", "tomic-mockup.jpg", "origen-carpinteria.jpg", "donettes-halloween.jpg", "cafe-lanzamiento.jpg", "amarte-poster.jpg", "vertex-email.jpg", "carlota-glow.jpg", "carlota-pantone.jpg", "coming-soon.jpg", "email-marketing-verano.jpg", "origen-naming.jpg"].map(f => '../img/' + f);
+  const srcs = WORK_IMGS;
   const smooth = !matchMedia('(prefers-reduced-motion:reduce)').matches;
   let cur = -1, active = null, preloaded = false, running = false;
   let tx = 0, ty = 0, x = 0, y = 0, lx = 0, ly = 0, scale = .85;
